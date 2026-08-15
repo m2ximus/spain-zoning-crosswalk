@@ -6,16 +6,24 @@ and a `mappings` list of {local, canonical, ...}. Law citation lives at region
 level (one law per region), confidence likewise.
 """
 import sys
+from pathlib import Path
+
 try:
     import yaml
 except ImportError:
     sys.exit("pip install pyyaml")
 
+# The data ships inside the package dir so it can be installed as package data.
+# Resolved relative to this file so validation needs no install -- CI runs it
+# with pyyaml alone.
+DATA = (Path(__file__).parent / "spain_zoning_crosswalk" / "crosswalks"
+        / "axis1-land-classification.yaml")
+
 CANON = {"URBAN_CONSOLIDATED","URBAN_UNCONSOLIDATED","DEVELOPABLE_SECTORED",
          "DEVELOPABLE_UNSECTORED","RURAL_SETTLEMENT","RURAL_ORDINARY","RURAL_PROTECTED"}
 CONF = {"verified","high","needs_review"}
 
-doc = yaml.safe_load(open("crosswalks/axis1-land-classification.yaml", encoding="utf-8"))
+doc = yaml.safe_load(DATA.read_text(encoding="utf-8"))
 errs, total = [], 0
 regions = doc.get("regions", [])
 if len(regions) < 17:

@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spain-zoning-crosswalk"
+version = "0.1.2"
+description = "Axis-1 crosswalk mapping the land-classification vocabulary of Spain's 17 autonomous communities onto a canonical enum defined by legal effect"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "CC-BY-4.0" }
+keywords = ["spain", "zoning", "urbanism", "land-classification", "inspire", "crosswalk"]
+dependencies = ["pyyaml>=6.0"]
+
+[project.urls]
+Homepage = "https://github.com/m2ximus/spain-zoning-crosswalk"
+
+[tool.setuptools]
+packages = ["spain_zoning_crosswalk"]
+
+[tool.setuptools.package-data]
+spain_zoning_crosswalk = ["crosswalks/*.yaml", "crosswalks/*.csv"]

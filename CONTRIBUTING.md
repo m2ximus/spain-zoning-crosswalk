@@ -2,7 +2,7 @@
 
 The most valuable contribution is correcting a `needs_review` mapping.
 
-1. Find the row in `crosswalks/axis1-land-classification.yaml`.
+1. Find the row in `spain_zoning_crosswalk/crosswalks/axis1-land-classification.yaml`.
 2. Check the regional law's consolidated text on BOE (each row carries its
    citation).
 3. Open a PR that: fixes the mapping if wrong, sets `confidence: verified`,
