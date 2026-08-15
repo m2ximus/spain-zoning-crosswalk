@@ -1,5 +1,6 @@
 # Casas Unitas — Crosswalk Axis 1: Land classification (clasificación del suelo)
-# Version: 0.1.0-draft
+# Version: see meta.version below — the single source of truth in this file,
+# kept equal to pyproject.toml's version by validate.py (CI fails on drift).
 # Maps the land-classification vocabulary of all 17 Spanish autonomous communities
 # onto a single canonical enum defined by LEGAL EFFECT, not by label.
 #
@@ -25,7 +26,7 @@
 # its source article and be re-verified. Regional urbanism laws are rewritten often.
 
 meta:
-  version: 0.1.1-draft
+  version: 0.1.3
   axis: 1
   axis_name: land_classification
   updated: 2026-08-15

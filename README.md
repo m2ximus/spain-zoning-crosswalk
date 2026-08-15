@@ -29,6 +29,20 @@ Semver tags. Consumers should pin a tag and record it (`crosswalk_version`)
 next to any data resolved through it. Mappings resolve against the law in
 force **when the plan was approved**, never against today's law.
 
+The version lives in two places — `version` in `pyproject.toml` and
+`meta.version` in the crosswalk YAML — and `validate.py` asserts they are
+equal, so CI goes red on drift. **Bump both in the same commit or validation
+fails.** A consumer recording `crosswalk_version` cannot tell which of the two
+it received, so they are never allowed to disagree.
+
+Release history:
+
+| Tag | Notes |
+|-----|-------|
+| `v0.1.1` | Data only — not pip-installable (no packaging metadata). |
+| `v0.1.2` | First installable release; `meta.version` was still stale in-file. |
+| `v0.1.3` | First self-consistent release; version sync enforced by CI. |
+
 ## Licence
 
 CC-BY-4.0. Maintained by Casas Unitas. Attribution: "spain-zoning-crosswalk,
