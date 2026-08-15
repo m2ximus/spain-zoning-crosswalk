@@ -1,0 +1,882 @@
+# Casas Unitas — Crosswalk Axis 1: Land classification (clasificación del suelo)
+# Version: 0.1.0-draft
+# Maps the land-classification vocabulary of all 17 Spanish autonomous communities
+# onto a single canonical enum defined by LEGAL EFFECT, not by label.
+#
+# GOVERNING PRINCIPLE
+#   Never map by label. Map by the answer to: "what can the holder of this land do?"
+#     - Can they build on the plot now?                    -> URBAN_*
+#     - Only after a transformation process?               -> DEVELOPABLE_*
+#     - Essentially not, except authorised rural uses?     -> RURAL_*
+#     - Is this a recognised rural settlement where
+#       residential building is specifically permitted?    -> RURAL_SETTLEMENT
+#
+# Labels move between levels (class vs category) when regional laws are rewritten.
+# Legal effect is far more stable. Andalucía abolished "urbanizable" as a class in
+# 2021 but the transitional state still exists one level down. Map the state.
+#
+# CONFIDENCE
+#   verified          - regional law text or BOE consolidated text checked directly
+#   high              - checked against secondary legal sources, consistent
+#   needs_review      - drafted from general knowledge, MUST be checked against the
+#                       BOE consolidated text before production use
+#
+# NOTHING IN THIS FILE IS LEGAL ADVICE. Every row that reaches production must carry
+# its source article and be re-verified. Regional urbanism laws are rewritten often.
+
+meta:
+  version: 0.1.1-draft
+  axis: 1
+  axis_name: land_classification
+  updated: 2026-08-15
+  canonical_count: 7
+  regions_covered: 17
+  license: CC-BY-4.0
+  note: >
+    Published openly as the standards contribution. The resolved per-plot data
+    built on top of it is the commercial product.
+
+  # --- Schema pinning -----------------------------------------------------
+  # INSPIRE changed the Planned Land Use schema MATERIALLY within version 4.0
+  # without bumping the version number. Implementers had to review transformation
+  # projects and republish. A bare "4.0" is therefore not a pin — it is a guess.
+  # Record the revision, the date observed, and the URL it was read from.
+  schemas:
+    inspire_plu:
+      version: "4.0"
+      revision: UNPINNED
+      revision_observed: null
+      source_url: https://inspire-mif.github.io/technical-guidelines/data/lu/dataspecification_lu.pdf
+      action_required: >
+        Pin before ingesting any PLU data. Murcia's pilot will have been built
+        against whichever revision was current when they started; if we assume
+        a different one we get silent field mismatches, not errors.
+    hilucs:
+      codelist_url: http://inspire.ec.europa.eu/codelist/HILUCSValue/
+      version: UNPINNED
+      note: extensible codelist; national extensions are permitted and expected
+
+# ---------------------------------------------------------------------------
+# VERSIONING AND CHANGE SURVEILLANCE
+# ---------------------------------------------------------------------------
+# Three independent things change, at three different rates, breaking three
+# different parts of the system. They must be versioned separately.
+#
+#   TIER 1  SCHEMA      what shape the data is in
+#   TIER 2  LAW         what the words mean          <- this file
+#   TIER 3  PLAN        what the polygons say
+#
+# A single "last_updated" field cannot express this. A plan can be revised under
+# an unchanged law, a law can change without any plan being revised yet, and the
+# schema can change without either. All three states are normal.
+
+versioning:
+
+  tier_1_schema:
+    what_changes: INSPIRE PLU / HILUCS data specification
+    sources: 1 (European Commission)
+    frequency: rare — years
+    blast_radius: every ingested dataset simultaneously
+    breaks: field names, types, codelist values
+    detection: manual review of the technical guidelines; no change feed
+    danger: >
+      HIGHEST SEVERITY, LOWEST FREQUENCY. Changed silently inside 4.0 once
+      already. Failure mode is silent field mismatch, not a crash.
+    required_fields_on_data: [plu_schema_version, plu_schema_revision]
+
+  tier_2_law:
+    what_changes: regional urbanism law — the vocabulary itself
+    sources: 17
+    frequency: every few years per region; roughly one region per year in aggregate
+    recent_examples:
+      - Extremadura 2018 (LOTUS, Ley 11/2018) — renamed no urbanizable to rústico
+      - Andalucía 2021 (LISTA, Ley 7/2021) — abolished urbanizable as a class
+      - Cantabria 2022 (Ley 5/2022) — replaced the 2001 law
+    blast_radius: one region, but every municipality within it
+    breaks: THIS FILE. New terms appear, old terms become legacy.
+    detection: >
+      BOE and the 17 regional official bulletins. Tractable: 18 feeds.
+      Watch for "ley de urbanismo", "ordenación del territorio", "ley del suelo".
+    critical_rule: >
+      A law change does NOT retroactively reclassify existing plans. Plans
+      approved under the old law stay under the old law until revised. This is
+      why both vocabularies must be retained (see legacy: true rows in
+      Andalucía) and why resolution happens against the LAW VINTAGE of the
+      plan, never against today's law. See OQ-3.
+    required_fields_on_data: [law_in_force_at_approval, crosswalk_version]
+
+  tier_3_plan:
+    what_changes: the municipal plan — polygons and rules
+    sources: ~8,131
+    frequency: >
+      CONSTANT. Full revisions every 10-20 years per municipality, but
+      modificaciones puntuales run continuously. Across 8,131 municipalities
+      this means something changes essentially every working day.
+    blast_radius: one municipality, sometimes one sector
+    breaks: the data, not the schema or the vocabulary
+    detection: >
+      THE KEY INSIGHT — do not monitor 8,131 town halls. A plan does not enter
+      into force until its normative text is published in the Boletín Oficial
+      de la Provincia (LBRL art. 70.2). That means the ~50 provincial bulletins
+      are the complete legal change feed for the entire country. Fifty sources,
+      not eight thousand. Regional registries (RPUC, SITUA, PLAU) are the
+      secondary feed and usually carry the documents.
+    required_fields_on_data: [plan_approval_date, bop_publication_date, bop_url, last_verified_at]
+
+  tier_0_source_dataset:
+    what_changes: the upstream file we downloaded, republished at the same URL
+    note: >
+      Not a legal change, but breaks ingest just as effectively. SIU bulk
+      shapefiles are date-stamped in the filename and the date changes. The MUC
+      updates every six months. Catastro ATOM refreshes roughly every 6 months.
+    detection: content-hash every download; alert on change, do not auto-ingest
+    required_fields_on_data: [source_url, source_fetched_at, source_sha256]
+
+change_surveillance:
+  principle: >
+    Every ingested record carries the version of all four tiers it was produced
+    under. When any tier moves, we can compute exactly which records are stale
+    instead of re-ingesting the country.
+  feeds:
+    - name: BOE
+      tier: 2
+      url: https://www.boe.es/
+      note: consolidated texts; also carries regional laws
+    - name: 17 regional official bulletins
+      tier: 2
+      note: BOJA, DOGC, DOG, BOPV, DOE, BOC, BOCM, BORM, BON, BOA, BOCyL, DOCM, BOIB, BOC-Canarias, BOR, DOGV, BOPA
+    - name: ~50 Boletines Oficiales de la Provincia
+      tier: 3
+      note: >
+        The legal entry-into-force feed for municipal planning. Highest-value
+        monitoring target in the entire project. Most publish daily PDFs; some
+        have RSS or open-data endpoints.
+    - name: Regional planning registries
+      tier: 3
+      note: RPUC (Catalunya), SITUA (Andalucía), PLAU (CyL), SIOTUGA (Galicia), etc.
+    - name: SIU bulk downloads
+      tier: 0
+      url: https://www.mivau.gob.es/urbanismo-y-suelo/sistema-de-informacion-urbana
+      note: filenames are date-stamped; scrape the page, never hardcode the URL
+  staleness_policy:
+    free_tier: show data with visible plan date and last_verified_at
+    pro_tier: >
+      Do not serve a regulation whose plan has an unresolved BOP change more
+      recent than last_verified_at. Show "a modification was published on
+      [date], we are processing it" and link the BOP entry. Being honestly
+      behind beats being confidently wrong when someone is deciding whether to
+      buy land.
+
+# ---------------------------------------------------------------------------
+# CANONICAL ENUM
+# ---------------------------------------------------------------------------
+
+canonical:
+
+  - code: URBAN_CONSOLIDATED
+    label_en: Urban, consolidated
+    label_es: Suelo urbano consolidado
+    effect: >
+      Serviced, integrated into the urban fabric. Building permitted directly
+      subject to the zone's parameters. No further planning instrument needed.
+    user_facing: "You can apply to build now."
+    hilucs_note: Use is set by axis 2, not by this value.
+
+  - code: URBAN_UNCONSOLIDATED
+    label_en: Urban, unconsolidated
+    label_es: Suelo urbano no consolidado
+    effect: >
+      Inside urban land but requires urbanisation works and/or equidistribution
+      before building. Owner bears cession and cost duties.
+    user_facing: "Urban, but development duties must be completed first."
+    caution: >
+      Several regions have ABOLISHED this label while retaining the underlying
+      distinction (Andalucía 2021, Extremadura 2018, Cantabria 2022 preamble).
+      Where abolished, the distinction survives in the definition of urban land
+      or in the type of actuación. Do not assume absence of the label means
+      absence of the duty. Flag these as URBAN_CONSOLIDATED with
+      `label_abolished: true` and surface the actuación type instead.
+
+  - code: DEVELOPABLE_SECTORED
+    label_en: Developable, sectored
+    label_es: Suelo urbanizable delimitado / sectorizado
+    effect: >
+      Earmarked for transformation AND delimited into sectors. Requires a plan
+      parcial plus urbanisation before building.
+    user_facing: "Approved for future development. Years away, not decades."
+
+  - code: DEVELOPABLE_UNSECTORED
+    label_en: Developable, unsectored
+    label_es: Suelo urbanizable no delimitado / no sectorizado / residual
+    effect: >
+      Earmarked in principle but not yet delimited. Requires sectoring first,
+      then a plan parcial, then urbanisation.
+    user_facing: "Long-term development reserve. Highly speculative."
+
+  - code: RURAL_SETTLEMENT
+    label_en: Recognised rural settlement
+    label_es: Núcleo rural / asentamiento tradicional
+    effect: >
+      Land outside the urban class where the plan or a regional catalogue
+      recognises an existing traditional settlement, and residential building
+      linked to it is specifically permitted.
+    user_facing: "Rural, but building a home here is specifically allowed."
+    why_it_exists: >
+      THE HIGHEST-VALUE VALUE IN THIS ENUM. A naive three-bucket model collapses
+      these into "countryside, cannot build", which is the opposite of the truth.
+      These are the places in rural Spain where you actually can build a house.
+      Present in at least six regions under six different names, at three
+      different levels of the legal hierarchy (own class in Galicia; category of
+      rústico in Cantabria and Extremadura; regional catalogue in Asturias).
+    caution: >
+      Rights vary enormously between regions and between the traditional and
+      common sub-types. Never render a generic "you can build" for this value.
+      Always show the regional sub-type and link to the source article.
+
+  - code: RURAL_ORDINARY
+    label_en: Rural, ordinary
+    label_es: Suelo rústico / no urbanizable de protección ordinaria o común
+    effect: >
+      Countryside without special protection. Building generally prohibited,
+      with a closed list of authorisable uses (agricultural, forestry, some
+      tourism, renewables) usually requiring a discretionary regional
+      authorisation.
+    user_facing: "Countryside. Limited uses, case-by-case permission."
+
+  - code: RURAL_PROTECTED
+    label_en: Rural, specially protected
+    label_es: Suelo rústico / no urbanizable de especial protección
+    effect: >
+      Protected by sectoral legislation or by the plan (natural, cultural,
+      landscape, coastal, hydrological, risk). Effectively unbuildable.
+    user_facing: "Protected countryside. Assume you cannot build."
+    note: >
+      The specific protection reason belongs on axis 4 (overlays), not here.
+      This value records only that special protection applies.
+
+# ---------------------------------------------------------------------------
+# REGIONAL MAPPINGS
+# ---------------------------------------------------------------------------
+
+regions:
+
+  # === ANDALUCÍA =========================================================
+  - region: Andalucía
+    ine_ca_code: "01"
+    languages: [es]
+    law:
+      citation: Ley 7/2021, de 1 de diciembre, de impulso para la sostenibilidad del territorio de Andalucía (LISTA)
+      boe_url: https://www.boe.es/buscar/doc.php?id=BOE-A-2021-20916
+      supersedes: Ley 7/2002 (LOUA)
+    class_count: 2
+    confidence: verified
+    outlier: true
+    notes: >
+      LISTA distinguishes only two classes, rústico and urbano, abolishing
+      urbanizable as a class and abolishing the consolidado / no consolidado
+      categorisation of urban land. The transitional state did not disappear:
+      it moved down a level, into actuaciones de nueva urbanización within
+      rústico común. First region in Spain to adopt this two-class system.
+      MIXED-VINTAGE HAZARD: pre-2021 Andalusian plans still in force use LOUA
+      vocabulary (urbanizable, consolidado). Both vocabularies coexist on the
+      ground. Always record the plan's approval date alongside the mapping.
+    mappings:
+      - local: suelo urbano
+        canonical: URBAN_CONSOLIDATED
+        label_abolished: true
+        note: consolidado/no consolidado distinction removed; use actuación type
+      - local: suelo rústico con actuación de nueva urbanización
+        canonical: DEVELOPABLE_SECTORED
+        note: functional equivalent of urbanizable in the other 16 regions
+      - local: suelo rústico común
+        canonical: RURAL_ORDINARY
+      - local: suelo rústico especialmente protegido
+        canonical: RURAL_PROTECTED
+      - local: núcleo rural tradicional
+        canonical: RURAL_SETTLEMENT
+      - local: hábitat rural diseminado
+        canonical: RURAL_SETTLEMENT
+        note: dispersed, not nucleated; rights differ from núcleo tradicional
+      # legacy LOUA vocabulary, still live in older plans
+      - local: suelo urbanizable (LOUA legacy)
+        canonical: DEVELOPABLE_SECTORED
+        legacy: true
+      - local: suelo no urbanizable (LOUA legacy)
+        canonical: RURAL_ORDINARY
+        legacy: true
+
+  # === ARAGÓN ============================================================
+  - region: Aragón
+    ine_ca_code: "02"
+    languages: [es]
+    law:
+      citation: Decreto Legislativo 1/2014, Texto Refundido de la Ley de Urbanismo de Aragón
+    class_count: 3
+    confidence: needs_review
+    mappings:
+      - local: suelo urbano consolidado
+        canonical: URBAN_CONSOLIDATED
+      - local: suelo urbano no consolidado
+        canonical: URBAN_UNCONSOLIDATED
+      - local: suelo urbanizable delimitado
+        canonical: DEVELOPABLE_SECTORED
+      - local: suelo urbanizable no delimitado
+        canonical: DEVELOPABLE_UNSECTORED
+      - local: suelo no urbanizable genérico
+        canonical: RURAL_ORDINARY
+      - local: suelo no urbanizable especial
+        canonical: RURAL_PROTECTED
+
+  # === ASTURIAS ==========================================================
+  - region: Principado de Asturias
+    ine_ca_code: "03"
+    languages: [es, ast]
+    law:
+      citation: Decreto Legislativo 1/2004, Texto Refundido en materia de Ordenación del Territorio y Urbanismo (TROTU)
+      boe_url: https://www.boe.es/buscar/act.php?id=BOE-A-2004-10070
+      class_article: art. 112
+      regulation: Decreto 63/2022, Reglamento de Ordenación del Territorio y Urbanismo (ROTU)
+    class_count: 3
+    confidence: verified
+    notes: >
+      TROTU art. 112: general plans classify concejo land as urbano,
+      urbanizable and no urbanizable. Asturias handles rural settlements NOT as
+      a class but through the Catálogo de Núcleos Rurales del Principado, which
+      is BINDING on municipal planning — municipalities cannot alter the
+      classification or qualification of catalogued cores. Also defines suelo
+      no urbanizable de interés around rural cores.
+      INGEST NOTE: the núcleo rural layer must be joined from the regional
+      catalogue, not read off the municipal plan alone.
+    mappings:
+      - local: suelo urbano consolidado
+        canonical: URBAN_CONSOLIDATED
+        article: art. 114
+      - local: suelo urbano no consolidado
+        canonical: URBAN_UNCONSOLIDATED
+        article: art. 114
+      - local: suelo urbanizable prioritario
+        canonical: DEVELOPABLE_SECTORED
+      - local: suelo urbanizable no prioritario
+        canonical: DEVELOPABLE_UNSECTORED
+      - local: núcleo rural (Catálogo del Principado)
+        canonical: RURAL_SETTLEMENT
+        source: regional catalogue, binding on municipal plans
+      - local: suelo no urbanizable de interés
+        canonical: RURAL_PROTECTED
+        article: art. 122
+      - local: suelo no urbanizable (genérico)
+        canonical: RURAL_ORDINARY
+        article: art. 115
+
+  # === ILLES BALEARS =====================================================
+  - region: Illes Balears
+    ine_ca_code: "04"
+    languages: [ca, es]
+    law:
+      citation: Ley 12/2017, de 29 de diciembre, de urbanismo de las Illes Balears (LUIB)
+      also: Ley 6/1997 del suelo rústico de las Illes Balears
+    class_count: 3
+    confidence: needs_review
+    notes: >
+      Insular plans (Planes Territoriales Insulares, one per island) sit above
+      municipal plans and materially constrain rústico. Treat the PTI as an
+      axis 4 overlay for Mallorca, Menorca, Ibiza and Formentera.
+    mappings:
+      - local: sòl urbà / suelo urbano
+        canonical: URBAN_CONSOLIDATED
+      - local: sòl urbà no consolidat
+        canonical: URBAN_UNCONSOLIDATED
+      - local: sòl urbanitzable
+        canonical: DEVELOPABLE_SECTORED
+      - local: sòl rústic comú
+        canonical: RURAL_ORDINARY
+      - local: sòl rústic protegit (ANEI, ARIP, AAPI)
+        canonical: RURAL_PROTECTED
+        note: protection figures come from Ley 1/1991; record the figure on axis 4
+
+  # === CANARIAS ==========================================================
+  - region: Canarias
+    ine_ca_code: "05"
+    languages: [es]
+    law:
+      citation: Ley 4/2017, de 13 de julio, del Suelo y de los Espacios Naturales Protegidos de Canarias
+    class_count: 3
+    confidence: needs_review
+    notes: >
+      CRS HAZARD: Canary geometry is WGS84, not ETRS89 like the rest of Spain.
+      Reproject on ingest or the islands land in the Atlantic.
+      Protected natural spaces are unusually dominant here — axis 4 matters more
+      in Canarias than anywhere else.
+    mappings:
+      - local: suelo urbano consolidado
+        canonical: URBAN_CONSOLIDATED
+      - local: suelo urbano no consolidado
+        canonical: URBAN_UNCONSOLIDATED
+      - local: suelo urbanizable sectorizado
+        canonical: DEVELOPABLE_SECTORED
+      - local: suelo urbanizable no sectorizado
+        canonical: DEVELOPABLE_UNSECTORED
+      - local: asentamiento rural
+        canonical: RURAL_SETTLEMENT
+      - local: asentamiento agrícola
+        canonical: RURAL_SETTLEMENT
+        note: linked to agricultural activity; narrower rights than asentamiento rural
+      - local: suelo rústico común
+        canonical: RURAL_ORDINARY
+      - local: suelo rústico de protección (ambiental, económica, de infraestructuras)
+        canonical: RURAL_PROTECTED
+
+  # === CANTABRIA =========================================================
+  - region: Cantabria
+    ine_ca_code: "06"
+    languages: [es]
+    law:
+      citation: Ley de Cantabria 5/2022, de 15 de julio, de Ordenación del Territorio y Urbanismo de Cantabria
+      boe_url: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-13844
+      class_article: art. 34
+      supersedes: Ley 2/2001
+    class_count: 3
+    confidence: verified
+    notes: >
+      Art. 34 sets classes and the categories of rústico. Urbano art. 37,
+      urbanizable art. 42, rústico art. 46, with especial protección art. 49
+      and protección ordinaria art. 50. Núcleo Rural is at art. 51 as a figure
+      WITHIN rústico, with residential linked to the rural environment as its
+      characteristic use.
+      Áreas de Desarrollo Rural are a 2022 novelty: they regulate detached
+      single-family housing in rústico in small or depopulating municipalities,
+      and cannot be delimited around urban cores. Commercially significant.
+      CONTESTED: the preamble states the consolidado / no consolidado
+      distinction is suppressed; at least one academic commentary describes
+      art. 34 as retaining it. Verify against the consolidated BOE text before
+      relying on URBAN_UNCONSOLIDATED for Cantabria.
+    mappings:
+      - local: suelo urbano
+        canonical: URBAN_CONSOLIDATED
+        article: art. 37
+        label_abolished: true
+        flag: contested_see_notes
+      - local: suelo urbanizable delimitado
+        canonical: DEVELOPABLE_SECTORED
+        article: art. 42
+      - local: suelo urbanizable residual
+        canonical: DEVELOPABLE_UNSECTORED
+        article: art. 42
+      - local: núcleo rural
+        canonical: RURAL_SETTLEMENT
+        article: art. 51
+      - local: área de desarrollo rural
+        canonical: RURAL_SETTLEMENT
+        note: 2022 figure, anti-depopulation, permits detached single-family housing
+      - local: suelo rústico de protección ordinaria
+        canonical: RURAL_ORDINARY
+        article: art. 50
+      - local: suelo rústico de especial protección
+        canonical: RURAL_PROTECTED
+        article: art. 49
+
+  # === CASTILLA Y LEÓN ===================================================
+  - region: Castilla y León
+    ine_ca_code: "07"
+    languages: [es]
+    law:
+      citation: Ley 5/1999, de 8 de abril, de Urbanismo de Castilla y León
+      regulation: Decreto 22/2004, Reglamento de Urbanismo de Castilla y León
+    class_count: 3
+    confidence: needs_review
+    notes: >
+      Unusually rich rústico categorisation — CyL is the reference case for
+      granular rural sub-types. Also holds the largest concentration of EATIMs
+      (sub-municipal entities) in Spain, around 2,226, which affects the
+      representatives layer more than the zoning layer.
+    mappings:
+      - local: suelo urbano consolidado
+        canonical: URBAN_CONSOLIDATED
+      - local: suelo urbano no consolidado
+        canonical: URBAN_UNCONSOLIDATED
+      - local: suelo urbanizable delimitado
+        canonical: DEVELOPABLE_SECTORED
+      - local: suelo urbanizable no delimitado
+        canonical: DEVELOPABLE_UNSECTORED
+      - local: suelo rústico común
+        canonical: RURAL_ORDINARY
+      - local: suelo rústico de asentamiento tradicional
+        canonical: RURAL_SETTLEMENT
+      - local: suelo rústico de entorno urbano
+        canonical: RURAL_ORDINARY
+        note: buffer around urban land; restrictive, but not sectoral protection
+      - local: suelo rústico con protección (natural, cultural, agropecuaria, de infraestructuras, especial)
+        canonical: RURAL_PROTECTED
+
+  # === CASTILLA-LA MANCHA ================================================
+  - region: Castilla-La Mancha
+    ine_ca_code: "08"
+    languages: [es]
+    law:
+      citation: Decreto Legislativo 1/2010, Texto Refundido de la Ley de Ordenación del Territorio y de la Actividad Urbanística (TRLOTAU)
+    class_count: 3
+    confidence: needs_review
+    mappings:
+      - local: suelo urbano consolidado
+        canonical: URBAN_CONSOLIDATED
+      - local: suelo urbano no consolidado
+        canonical: URBAN_UNCONSOLIDATED
+      - local: suelo urbanizable
+        canonical: DEVELOPABLE_SECTORED
+      - local: suelo rústico de reserva
+        canonical: RURAL_ORDINARY
+      - local: suelo rústico no urbanizable de especial protección
+        canonical: RURAL_PROTECTED
+
+  # === CATALUNYA =========================================================
+  - region: Catalunya
+    ine_ca_code: "09"
+    languages: [ca, oc, es]
+    law:
+      citation: Decret Legislatiu 1/2010, Text Refós de la Llei d'urbanisme de Catalunya (TRLUC)
+    class_count: 3
+    confidence: high
+    priority: 1
+    notes: >
+      DO THIS REGION FIRST. The MUC already resolves 947 municipalities into a
+      harmonised synthetic layer with its own codes — meaning Catalunya requires
+      a two-step crosswalk (municipal code -> MUC code -> canonical) rather than
+      the one-step used elsewhere. Building against the hardest case first means
+      the schema will absorb the other sixteen.
+      Aranese/Occitan is co-official in Val d'Aran; plans there may use it.
+    mappings:
+      - local: sòl urbà consolidat
+        canonical: URBAN_CONSOLIDATED
+      - local: sòl urbà no consolidat
+        canonical: URBAN_UNCONSOLIDATED
+      - local: sòl urbanitzable delimitat
+        canonical: DEVELOPABLE_SECTORED
+      - local: sòl urbanitzable no delimitat
+        canonical: DEVELOPABLE_UNSECTORED
+      - local: sòl no urbanitzable
+        canonical: RURAL_ORDINARY
+      - local: sòl no urbanitzable de protecció especial
+        canonical: RURAL_PROTECTED
+      - local: nucli rural / masia o casa rural inclosa en catàleg
+        canonical: RURAL_SETTLEMENT
+        note: >
+          Catalunya handles rural building mainly through catalogued masies and
+          cases rurals rather than a settlement class. Rights attach to the
+          catalogued BUILDING, not to the land. Model carefully — this breaks
+          the polygon assumption used elsewhere.
+
+  # === COMUNITAT VALENCIANA ==============================================
+  - region: Comunitat Valenciana
+    ine_ca_code: "10"
+    languages: [ca-valencia, es]
+    law:
+      citation: Decreto Legislativo 1/2021, Texto Refundido de la Ley de Ordenación del Territorio, Urbanismo y Paisaje (TRLOTUP)
+    class_count: 3
+    confidence: needs_review
+    notes: >
+      Valencia pioneered an intermediate route: Programas de Actuación
+      Integrada can incorporate non-urbanizable land alongside urbanizable,
+      partially blurring the class boundary. Record PAI status as a separate
+      flag, not as a classification value.
+      Language: official name is Valencian; linguistically the same as Catalan.
+      Store as `ca-valencia` so the UI can render the correct official name
+      without duplicating the vocabulary.
+    mappings:
+      - local: sòl urbà / suelo urbano
+        canonical: URBAN_CONSOLIDATED
+      - local: sòl urbà no consolidat
+        canonical: URBAN_UNCONSOLIDATED
+      - local: sòl urbanitzable
+        canonical: DEVELOPABLE_SECTORED
+      - local: sòl no urbanitzable comú
+        canonical: RURAL_ORDINARY
+      - local: sòl no urbanitzable protegit
+        canonical: RURAL_PROTECTED
+      - local: nucli rural / núcleo rural
+        canonical: RURAL_SETTLEMENT
+
+  # === EXTREMADURA =======================================================
+  - region: Extremadura
+    ine_ca_code: "11"
+    languages: [es]
+    law:
+      citation: Ley 11/2018, de 21 de diciembre, de ordenación territorial y urbanística sostenible de Extremadura (LOTUS)
+      boe_url: https://www.boe.es/buscar/doc.php?id=BOE-A-2019-1790
+      supersedes: Ley 15/2001 (LSOTEX)
+    class_count: 3
+    confidence: verified
+    notes: >
+      CORRECTION TO A COMMON ASSUMPTION: LOTUS did NOT abolish urbanizable.
+      It classifies land as urbano, urbanizable and rústico. What it did was
+      abandon the no consolidado category and eliminate the "no urbanizable"
+      denomination in favour of "rústico", making rústico the basic category of
+      municipal land. Extremadura is a three-class region, not a two-class one.
+      Art. 67 systematises rústico uses as: naturales, vinculados, permitidos,
+      autorizables, prohibidos — a five-tier permission ladder that maps well
+      onto the axis-2 permitted/conditional/prohibited model.
+      Suelo rústico con asentamiento tradicional is the successor to the old
+      "no urbanizable común" catch-all.
+    mappings:
+      - local: suelo urbano
+        canonical: URBAN_CONSOLIDATED
+        label_abolished: true
+        note: no consolidado category abandoned by LOTUS
+      - local: suelo urbanizable
+        canonical: DEVELOPABLE_SECTORED
+      - local: suelo rústico con asentamiento tradicional
+        canonical: RURAL_SETTLEMENT
+        article: art. 71
+      - local: suelo rústico (común)
+        canonical: RURAL_ORDINARY
+      - local: suelo rústico protegido
+        canonical: RURAL_PROTECTED
+
+  # === GALICIA ===========================================================
+  - region: Galicia
+    ine_ca_code: "12"
+    languages: [gl, es]
+    law:
+      citation: Ley 2/2016, de 10 de febrero, do solo de Galicia
+      boe_url: https://www.boe.es/buscar/act.php?id=BOE-A-2016-3191
+      regulation: Decreto 143/2016, Reglamento da Lei 2/2016
+      supersedes: Ley 9/2002
+    class_count: 4
+    confidence: verified
+    outlier: true
+    notes: >
+      THE STRUCTURAL OUTLIER. General plans and planes básicos municipales
+      classify municipal territory into urbano, de núcleo rural, urbanizable
+      and rústico. Núcleo rural is a FULL LAND CLASS, not a category — unique
+      in Spain — retained as characteristic of the Galician settlement system.
+      Ley 2/2016 categorised it into tradicional and común, eliminating the
+      former "complexo" category.
+      Also note the Plan Básico Autonómico: a regional plan that supplies
+      classification for municipalities under 5,000 inhabitants without their
+      own general plan, via planes básicos municipales. This is a partial
+      solution to Galicia's coverage gap and should be ingested as a fallback
+      source before marking a Galician municipality "no plan found".
+    mappings:
+      - local: solo urbano consolidado
+        local_es: suelo urbano consolidado
+        canonical: URBAN_CONSOLIDATED
+        article: art. 17
+      - local: solo urbano non consolidado
+        local_es: suelo urbano no consolidado
+        canonical: URBAN_UNCONSOLIDATED
+        article: art. 17
+      - local: solo de núcleo rural tradicional
+        canonical: RURAL_SETTLEMENT
+        article: art. 23
+        note: own land class in Galicia, not a category of rústico
+      - local: solo de núcleo rural común
+        canonical: RURAL_SETTLEMENT
+        article: art. 23
+      - local: solo urbanizable delimitado
+        canonical: DEVELOPABLE_SECTORED
+        article: art. 27
+      - local: solo urbanizable non delimitado
+        canonical: DEVELOPABLE_UNSECTORED
+        article: art. 27
+      - local: solo rústico de protección ordinaria
+        canonical: RURAL_ORDINARY
+        article: art. 33
+      - local: solo rústico de especial protección
+        canonical: RURAL_PROTECTED
+        article: art. 34
+
+  # === MADRID ============================================================
+  - region: Comunidad de Madrid
+    ine_ca_code: "13"
+    languages: [es]
+    law:
+      citation: Ley 9/2001, de 17 de julio, del Suelo de la Comunidad de Madrid
+    class_count: 3
+    confidence: needs_review
+    notes: >
+      Madrid's third class is named suelo no urbanizable DE PROTECCIÓN — the
+      law frames non-developable land as inherently protected rather than
+      splitting ordinary from protected. This means a naive mapping will
+      over-assign RURAL_PROTECTED. Check whether the specific plan distinguishes
+      a common sub-type before defaulting.
+    mappings:
+      - local: suelo urbano consolidado
+        canonical: URBAN_CONSOLIDATED
+      - local: suelo urbano no consolidado
+        canonical: URBAN_UNCONSOLIDATED
+      - local: suelo urbanizable sectorizado
+        canonical: DEVELOPABLE_SECTORED
+      - local: suelo urbanizable no sectorizado
+        canonical: DEVELOPABLE_UNSECTORED
+      - local: suelo no urbanizable de protección
+        canonical: RURAL_PROTECTED
+        flag: check_for_common_subtype
+
+  # === MURCIA ============================================================
+  - region: Región de Murcia
+    ine_ca_code: "14"
+    languages: [es]
+    law:
+      citation: Ley 13/2015, de 30 de marzo, de ordenación territorial y urbanística de la Región de Murcia (LOTURM)
+      technical_instruction: Instrucción técnica sobre estandarización y normalización de instrumentos de planeamiento
+    class_count: 3
+    confidence: needs_review
+    priority: 2
+    notes: >
+      MOST IMPORTANT REGION FOR THIS PROJECT AFTER CATALUNYA — not for its size
+      but because Murcia has already published a technical instruction
+      standardising its planning instruments and mapping them to HILUCS. It is
+      the only region that has publicly done the work this crosswalk is doing.
+      Read it before finalising axis 2; align with it wherever defensible.
+      Murcia is also running an INSPIRE Planned Land Use pilot across twelve
+      municipalities (Águilas, Aledo, Albudeite, Alguazas, Beniel, Cehegín,
+      Ojós, Puerto Lumbreras, Las Torres de Cotillas, Librilla, Totana,
+      Villanueva del Río Segura), due H1 2026. That is the first genuinely
+      INSPIRE-conformant PLU data in Spain. Ingest it as the reference
+      implementation and validate the crosswalk against it.
+    mappings:
+      - local: suelo urbano consolidado
+        canonical: URBAN_CONSOLIDATED
+      - local: suelo urbano sin consolidar
+        canonical: URBAN_UNCONSOLIDATED
+      - local: suelo urbanizable sectorizado
+        canonical: DEVELOPABLE_SECTORED
+      - local: suelo urbanizable sin sectorizar
+        canonical: DEVELOPABLE_UNSECTORED
+      - local: suelo no urbanizable inadecuado / común
+        canonical: RURAL_ORDINARY
+      - local: suelo no urbanizable de protección específica
+        canonical: RURAL_PROTECTED
+
+  # === NAVARRA ===========================================================
+  - region: Comunidad Foral de Navarra
+    ine_ca_code: "15"
+    languages: [es, eu]
+    law:
+      citation: Decreto Foral Legislativo 1/2017, Texto Refundido de la Ley Foral de Ordenación del Territorio y Urbanismo
+    class_count: 3
+    confidence: needs_review
+    notes: >
+      Foral regime. SEPARATE CADASTRE — Navarra does not use the Dirección
+      General del Catastro. Different endpoints, different data model. Do this
+      region last alongside País Vasco.
+      Basque is co-official in part of Navarra; plans in the Basque-speaking
+      zone may use Euskera terminology.
+    mappings:
+      - local: suelo urbano consolidado
+        canonical: URBAN_CONSOLIDATED
+      - local: suelo urbano no consolidado
+        canonical: URBAN_UNCONSOLIDATED
+      - local: suelo urbanizable sectorizado
+        canonical: DEVELOPABLE_SECTORED
+      - local: suelo urbanizable no sectorizado
+        canonical: DEVELOPABLE_UNSECTORED
+      - local: suelo no urbanizable de preservación
+        canonical: RURAL_ORDINARY
+      - local: suelo no urbanizable de protección
+        canonical: RURAL_PROTECTED
+
+  # === PAÍS VASCO ========================================================
+  - region: País Vasco / Euskadi
+    ine_ca_code: "16"
+    languages: [eu, es]
+    law:
+      citation: Ley 2/2006, de 30 de junio, de Suelo y Urbanismo del País Vasco
+    class_count: 3
+    confidence: needs_review
+    notes: >
+      THREE SEPARATE CADASTRES, one per foral diputación: Araba/Álava, Bizkaia,
+      Gipuzkoa. Not the national Catastro. Plan documents may be in Euskera.
+      Do this region last.
+      Basque terminology is NOT included below because it has not been verified
+      against the Euskera text of Ley 2/2006. Do not guess Basque legal terms —
+      a wrong term here is worse than a missing one. Source them from the
+      official Euskera version before populating.
+      Open Data Euskadi is however the best regional source in Spain for the
+      representatives layer (axis 3).
+    mappings:
+      - local: suelo urbano consolidado
+        canonical: URBAN_CONSOLIDATED
+      - local: suelo urbano no consolidado
+        canonical: URBAN_UNCONSOLIDATED
+      - local: suelo urbanizable sectorizado
+        canonical: DEVELOPABLE_SECTORED
+      - local: suelo urbanizable no sectorizado
+        canonical: DEVELOPABLE_UNSECTORED
+      - local: núcleo rural
+        canonical: RURAL_SETTLEMENT
+      - local: suelo no urbanizable común
+        canonical: RURAL_ORDINARY
+      - local: suelo no urbanizable de especial protección
+        canonical: RURAL_PROTECTED
+    todo: source official Euskera terms from the Basque-language text of Ley 2/2006
+
+  # === LA RIOJA ==========================================================
+  - region: La Rioja
+    ine_ca_code: "17"
+    languages: [es]
+    law:
+      citation: Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja
+    class_count: 3
+    confidence: needs_review
+    priority: 3
+    notes: >
+      Small (174 municipalities) and its regional SIU was explicitly built to
+      OGC standards for integration. Best ratio of coverage to effort in Spain.
+      Good candidate for the first END-TO-END region: ingest, crosswalk,
+      normativa extraction, Pro tier, all of it, at a size one person can
+      finish. Prove the pipeline here before scaling.
+    mappings:
+      - local: suelo urbano consolidado
+        canonical: URBAN_CONSOLIDATED
+      - local: suelo urbano no consolidado
+        canonical: URBAN_UNCONSOLIDATED
+      - local: suelo urbanizable delimitado
+        canonical: DEVELOPABLE_SECTORED
+      - local: suelo urbanizable no delimitado
+        canonical: DEVELOPABLE_UNSECTORED
+      - local: suelo no urbanizable genérico
+        canonical: RURAL_ORDINARY
+      - local: suelo no urbanizable de especial protección
+        canonical: RURAL_PROTECTED
+
+# ---------------------------------------------------------------------------
+# OPEN QUESTIONS — resolve before v1.0.0
+# ---------------------------------------------------------------------------
+
+open_questions:
+  - id: OQ-1
+    question: >
+      Should URBAN_UNCONSOLIDATED survive as a canonical value given that at
+      least three regions have abolished the label?
+    recommendation: >
+      Keep it. The duty it represents (urbanise and cede before building) is
+      real everywhere and is exactly what a buyer needs to know. Where the
+      label is abolished, derive the value from the actuación type and set
+      label_abolished so the UI can explain the discrepancy honestly.
+
+  - id: OQ-2
+    question: >
+      Catalunya attaches rural building rights to catalogued BUILDINGS (masies,
+      cases rurals) rather than to land polygons. The rest of the model assumes
+      rights attach to polygons. How is this represented?
+    recommendation: >
+      Add a nullable `rights_attach_to` field on the zone record with values
+      polygon or catalogued_building. Do not force it into RURAL_SETTLEMENT —
+      that would tell a Catalan user they can build on empty rural land.
+
+  - id: OQ-3
+    question: >
+      Mixed-vintage plans. Andalucía has LOUA-era and LISTA-era plans both in
+      force; Extremadura has LSOTEX and LOTUS; Cantabria has 2001 and 2022.
+    recommendation: >
+      Mandatory: every zone row carries the approval date of its plan AND the
+      law in force at approval. Resolve the crosswalk against the law vintage,
+      not the current law. This is not optional — get it wrong and the map
+      silently misclassifies thousands of polygons.
+
+  - id: OQ-4
+    question: Confidence on eleven of seventeen regions is needs_review.
+    recommendation: >
+      Do not ship any needs_review row to a paying user. Free tier can show
+      geometry with a coverage caveat. Verify against BOE consolidated text,
+      region by region, in the phase order in the master plan.

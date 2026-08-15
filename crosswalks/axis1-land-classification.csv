@@ -1,0 +1,111 @@
+region,ine_ca_code,law,local_term,local_term_es,canonical,article,legacy,label_abolished,flag,confidence,crosswalk_version
+Andalucía,01,"Ley 7/2021, de 1 de diciembre, de impulso para la sostenibilidad del territorio de Andalucía (LISTA)",suelo urbano,,URBAN_CONSOLIDATED,,False,True,,verified,0.1.1-draft
+Andalucía,01,"Ley 7/2021, de 1 de diciembre, de impulso para la sostenibilidad del territorio de Andalucía (LISTA)",suelo rústico con actuación de nueva urbanización,,DEVELOPABLE_SECTORED,,False,False,,verified,0.1.1-draft
+Andalucía,01,"Ley 7/2021, de 1 de diciembre, de impulso para la sostenibilidad del territorio de Andalucía (LISTA)",suelo rústico común,,RURAL_ORDINARY,,False,False,,verified,0.1.1-draft
+Andalucía,01,"Ley 7/2021, de 1 de diciembre, de impulso para la sostenibilidad del territorio de Andalucía (LISTA)",suelo rústico especialmente protegido,,RURAL_PROTECTED,,False,False,,verified,0.1.1-draft
+Andalucía,01,"Ley 7/2021, de 1 de diciembre, de impulso para la sostenibilidad del territorio de Andalucía (LISTA)",núcleo rural tradicional,,RURAL_SETTLEMENT,,False,False,,verified,0.1.1-draft
+Andalucía,01,"Ley 7/2021, de 1 de diciembre, de impulso para la sostenibilidad del territorio de Andalucía (LISTA)",hábitat rural diseminado,,RURAL_SETTLEMENT,,False,False,,verified,0.1.1-draft
+Andalucía,01,"Ley 7/2021, de 1 de diciembre, de impulso para la sostenibilidad del territorio de Andalucía (LISTA)",suelo urbanizable (LOUA legacy),,DEVELOPABLE_SECTORED,,True,False,,verified,0.1.1-draft
+Andalucía,01,"Ley 7/2021, de 1 de diciembre, de impulso para la sostenibilidad del territorio de Andalucía (LISTA)",suelo no urbanizable (LOUA legacy),,RURAL_ORDINARY,,True,False,,verified,0.1.1-draft
+Aragón,02,"Decreto Legislativo 1/2014, Texto Refundido de la Ley de Urbanismo de Aragón",suelo urbano consolidado,,URBAN_CONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Aragón,02,"Decreto Legislativo 1/2014, Texto Refundido de la Ley de Urbanismo de Aragón",suelo urbano no consolidado,,URBAN_UNCONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Aragón,02,"Decreto Legislativo 1/2014, Texto Refundido de la Ley de Urbanismo de Aragón",suelo urbanizable delimitado,,DEVELOPABLE_SECTORED,,False,False,,needs_review,0.1.1-draft
+Aragón,02,"Decreto Legislativo 1/2014, Texto Refundido de la Ley de Urbanismo de Aragón",suelo urbanizable no delimitado,,DEVELOPABLE_UNSECTORED,,False,False,,needs_review,0.1.1-draft
+Aragón,02,"Decreto Legislativo 1/2014, Texto Refundido de la Ley de Urbanismo de Aragón",suelo no urbanizable genérico,,RURAL_ORDINARY,,False,False,,needs_review,0.1.1-draft
+Aragón,02,"Decreto Legislativo 1/2014, Texto Refundido de la Ley de Urbanismo de Aragón",suelo no urbanizable especial,,RURAL_PROTECTED,,False,False,,needs_review,0.1.1-draft
+Principado de Asturias,03,"Decreto Legislativo 1/2004, Texto Refundido en materia de Ordenación del Territorio y Urbanismo (TROTU)",suelo urbano consolidado,,URBAN_CONSOLIDATED,art. 114,False,False,,verified,0.1.1-draft
+Principado de Asturias,03,"Decreto Legislativo 1/2004, Texto Refundido en materia de Ordenación del Territorio y Urbanismo (TROTU)",suelo urbano no consolidado,,URBAN_UNCONSOLIDATED,art. 114,False,False,,verified,0.1.1-draft
+Principado de Asturias,03,"Decreto Legislativo 1/2004, Texto Refundido en materia de Ordenación del Territorio y Urbanismo (TROTU)",suelo urbanizable prioritario,,DEVELOPABLE_SECTORED,,False,False,,verified,0.1.1-draft
+Principado de Asturias,03,"Decreto Legislativo 1/2004, Texto Refundido en materia de Ordenación del Territorio y Urbanismo (TROTU)",suelo urbanizable no prioritario,,DEVELOPABLE_UNSECTORED,,False,False,,verified,0.1.1-draft
+Principado de Asturias,03,"Decreto Legislativo 1/2004, Texto Refundido en materia de Ordenación del Territorio y Urbanismo (TROTU)",núcleo rural (Catálogo del Principado),,RURAL_SETTLEMENT,,False,False,,verified,0.1.1-draft
+Principado de Asturias,03,"Decreto Legislativo 1/2004, Texto Refundido en materia de Ordenación del Territorio y Urbanismo (TROTU)",suelo no urbanizable de interés,,RURAL_PROTECTED,art. 122,False,False,,verified,0.1.1-draft
+Principado de Asturias,03,"Decreto Legislativo 1/2004, Texto Refundido en materia de Ordenación del Territorio y Urbanismo (TROTU)",suelo no urbanizable (genérico),,RURAL_ORDINARY,art. 115,False,False,,verified,0.1.1-draft
+Illes Balears,04,"Ley 12/2017, de 29 de diciembre, de urbanismo de las Illes Balears (LUIB)",sòl urbà / suelo urbano,,URBAN_CONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Illes Balears,04,"Ley 12/2017, de 29 de diciembre, de urbanismo de las Illes Balears (LUIB)",sòl urbà no consolidat,,URBAN_UNCONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Illes Balears,04,"Ley 12/2017, de 29 de diciembre, de urbanismo de las Illes Balears (LUIB)",sòl urbanitzable,,DEVELOPABLE_SECTORED,,False,False,,needs_review,0.1.1-draft
+Illes Balears,04,"Ley 12/2017, de 29 de diciembre, de urbanismo de las Illes Balears (LUIB)",sòl rústic comú,,RURAL_ORDINARY,,False,False,,needs_review,0.1.1-draft
+Illes Balears,04,"Ley 12/2017, de 29 de diciembre, de urbanismo de las Illes Balears (LUIB)","sòl rústic protegit (ANEI, ARIP, AAPI)",,RURAL_PROTECTED,,False,False,,needs_review,0.1.1-draft
+Canarias,05,"Ley 4/2017, de 13 de julio, del Suelo y de los Espacios Naturales Protegidos de Canarias",suelo urbano consolidado,,URBAN_CONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Canarias,05,"Ley 4/2017, de 13 de julio, del Suelo y de los Espacios Naturales Protegidos de Canarias",suelo urbano no consolidado,,URBAN_UNCONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Canarias,05,"Ley 4/2017, de 13 de julio, del Suelo y de los Espacios Naturales Protegidos de Canarias",suelo urbanizable sectorizado,,DEVELOPABLE_SECTORED,,False,False,,needs_review,0.1.1-draft
+Canarias,05,"Ley 4/2017, de 13 de julio, del Suelo y de los Espacios Naturales Protegidos de Canarias",suelo urbanizable no sectorizado,,DEVELOPABLE_UNSECTORED,,False,False,,needs_review,0.1.1-draft
+Canarias,05,"Ley 4/2017, de 13 de julio, del Suelo y de los Espacios Naturales Protegidos de Canarias",asentamiento rural,,RURAL_SETTLEMENT,,False,False,,needs_review,0.1.1-draft
+Canarias,05,"Ley 4/2017, de 13 de julio, del Suelo y de los Espacios Naturales Protegidos de Canarias",asentamiento agrícola,,RURAL_SETTLEMENT,,False,False,,needs_review,0.1.1-draft
+Canarias,05,"Ley 4/2017, de 13 de julio, del Suelo y de los Espacios Naturales Protegidos de Canarias",suelo rústico común,,RURAL_ORDINARY,,False,False,,needs_review,0.1.1-draft
+Canarias,05,"Ley 4/2017, de 13 de julio, del Suelo y de los Espacios Naturales Protegidos de Canarias","suelo rústico de protección (ambiental, económica, de infraestructuras)",,RURAL_PROTECTED,,False,False,,needs_review,0.1.1-draft
+Cantabria,06,"Ley de Cantabria 5/2022, de 15 de julio, de Ordenación del Territorio y Urbanismo de Cantabria",suelo urbano,,URBAN_CONSOLIDATED,art. 37,False,True,contested_see_notes,verified,0.1.1-draft
+Cantabria,06,"Ley de Cantabria 5/2022, de 15 de julio, de Ordenación del Territorio y Urbanismo de Cantabria",suelo urbanizable delimitado,,DEVELOPABLE_SECTORED,art. 42,False,False,,verified,0.1.1-draft
+Cantabria,06,"Ley de Cantabria 5/2022, de 15 de julio, de Ordenación del Territorio y Urbanismo de Cantabria",suelo urbanizable residual,,DEVELOPABLE_UNSECTORED,art. 42,False,False,,verified,0.1.1-draft
+Cantabria,06,"Ley de Cantabria 5/2022, de 15 de julio, de Ordenación del Territorio y Urbanismo de Cantabria",núcleo rural,,RURAL_SETTLEMENT,art. 51,False,False,,verified,0.1.1-draft
+Cantabria,06,"Ley de Cantabria 5/2022, de 15 de julio, de Ordenación del Territorio y Urbanismo de Cantabria",área de desarrollo rural,,RURAL_SETTLEMENT,,False,False,,verified,0.1.1-draft
+Cantabria,06,"Ley de Cantabria 5/2022, de 15 de julio, de Ordenación del Territorio y Urbanismo de Cantabria",suelo rústico de protección ordinaria,,RURAL_ORDINARY,art. 50,False,False,,verified,0.1.1-draft
+Cantabria,06,"Ley de Cantabria 5/2022, de 15 de julio, de Ordenación del Territorio y Urbanismo de Cantabria",suelo rústico de especial protección,,RURAL_PROTECTED,art. 49,False,False,,verified,0.1.1-draft
+Castilla y León,07,"Ley 5/1999, de 8 de abril, de Urbanismo de Castilla y León",suelo urbano consolidado,,URBAN_CONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Castilla y León,07,"Ley 5/1999, de 8 de abril, de Urbanismo de Castilla y León",suelo urbano no consolidado,,URBAN_UNCONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Castilla y León,07,"Ley 5/1999, de 8 de abril, de Urbanismo de Castilla y León",suelo urbanizable delimitado,,DEVELOPABLE_SECTORED,,False,False,,needs_review,0.1.1-draft
+Castilla y León,07,"Ley 5/1999, de 8 de abril, de Urbanismo de Castilla y León",suelo urbanizable no delimitado,,DEVELOPABLE_UNSECTORED,,False,False,,needs_review,0.1.1-draft
+Castilla y León,07,"Ley 5/1999, de 8 de abril, de Urbanismo de Castilla y León",suelo rústico común,,RURAL_ORDINARY,,False,False,,needs_review,0.1.1-draft
+Castilla y León,07,"Ley 5/1999, de 8 de abril, de Urbanismo de Castilla y León",suelo rústico de asentamiento tradicional,,RURAL_SETTLEMENT,,False,False,,needs_review,0.1.1-draft
+Castilla y León,07,"Ley 5/1999, de 8 de abril, de Urbanismo de Castilla y León",suelo rústico de entorno urbano,,RURAL_ORDINARY,,False,False,,needs_review,0.1.1-draft
+Castilla y León,07,"Ley 5/1999, de 8 de abril, de Urbanismo de Castilla y León","suelo rústico con protección (natural, cultural, agropecuaria, de infraestructuras, especial)",,RURAL_PROTECTED,,False,False,,needs_review,0.1.1-draft
+Castilla-La Mancha,08,"Decreto Legislativo 1/2010, Texto Refundido de la Ley de Ordenación del Territorio y de la Actividad Urbanística (TRLOTAU)",suelo urbano consolidado,,URBAN_CONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Castilla-La Mancha,08,"Decreto Legislativo 1/2010, Texto Refundido de la Ley de Ordenación del Territorio y de la Actividad Urbanística (TRLOTAU)",suelo urbano no consolidado,,URBAN_UNCONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Castilla-La Mancha,08,"Decreto Legislativo 1/2010, Texto Refundido de la Ley de Ordenación del Territorio y de la Actividad Urbanística (TRLOTAU)",suelo urbanizable,,DEVELOPABLE_SECTORED,,False,False,,needs_review,0.1.1-draft
+Castilla-La Mancha,08,"Decreto Legislativo 1/2010, Texto Refundido de la Ley de Ordenación del Territorio y de la Actividad Urbanística (TRLOTAU)",suelo rústico de reserva,,RURAL_ORDINARY,,False,False,,needs_review,0.1.1-draft
+Castilla-La Mancha,08,"Decreto Legislativo 1/2010, Texto Refundido de la Ley de Ordenación del Territorio y de la Actividad Urbanística (TRLOTAU)",suelo rústico no urbanizable de especial protección,,RURAL_PROTECTED,,False,False,,needs_review,0.1.1-draft
+Catalunya,09,"Decret Legislatiu 1/2010, Text Refós de la Llei d'urbanisme de Catalunya (TRLUC)",sòl urbà consolidat,,URBAN_CONSOLIDATED,,False,False,,high,0.1.1-draft
+Catalunya,09,"Decret Legislatiu 1/2010, Text Refós de la Llei d'urbanisme de Catalunya (TRLUC)",sòl urbà no consolidat,,URBAN_UNCONSOLIDATED,,False,False,,high,0.1.1-draft
+Catalunya,09,"Decret Legislatiu 1/2010, Text Refós de la Llei d'urbanisme de Catalunya (TRLUC)",sòl urbanitzable delimitat,,DEVELOPABLE_SECTORED,,False,False,,high,0.1.1-draft
+Catalunya,09,"Decret Legislatiu 1/2010, Text Refós de la Llei d'urbanisme de Catalunya (TRLUC)",sòl urbanitzable no delimitat,,DEVELOPABLE_UNSECTORED,,False,False,,high,0.1.1-draft
+Catalunya,09,"Decret Legislatiu 1/2010, Text Refós de la Llei d'urbanisme de Catalunya (TRLUC)",sòl no urbanitzable,,RURAL_ORDINARY,,False,False,,high,0.1.1-draft
+Catalunya,09,"Decret Legislatiu 1/2010, Text Refós de la Llei d'urbanisme de Catalunya (TRLUC)",sòl no urbanitzable de protecció especial,,RURAL_PROTECTED,,False,False,,high,0.1.1-draft
+Catalunya,09,"Decret Legislatiu 1/2010, Text Refós de la Llei d'urbanisme de Catalunya (TRLUC)",nucli rural / masia o casa rural inclosa en catàleg,,RURAL_SETTLEMENT,,False,False,,high,0.1.1-draft
+Comunitat Valenciana,10,"Decreto Legislativo 1/2021, Texto Refundido de la Ley de Ordenación del Territorio, Urbanismo y Paisaje (TRLOTUP)",sòl urbà / suelo urbano,,URBAN_CONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Comunitat Valenciana,10,"Decreto Legislativo 1/2021, Texto Refundido de la Ley de Ordenación del Territorio, Urbanismo y Paisaje (TRLOTUP)",sòl urbà no consolidat,,URBAN_UNCONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Comunitat Valenciana,10,"Decreto Legislativo 1/2021, Texto Refundido de la Ley de Ordenación del Territorio, Urbanismo y Paisaje (TRLOTUP)",sòl urbanitzable,,DEVELOPABLE_SECTORED,,False,False,,needs_review,0.1.1-draft
+Comunitat Valenciana,10,"Decreto Legislativo 1/2021, Texto Refundido de la Ley de Ordenación del Territorio, Urbanismo y Paisaje (TRLOTUP)",sòl no urbanitzable comú,,RURAL_ORDINARY,,False,False,,needs_review,0.1.1-draft
+Comunitat Valenciana,10,"Decreto Legislativo 1/2021, Texto Refundido de la Ley de Ordenación del Territorio, Urbanismo y Paisaje (TRLOTUP)",sòl no urbanitzable protegit,,RURAL_PROTECTED,,False,False,,needs_review,0.1.1-draft
+Comunitat Valenciana,10,"Decreto Legislativo 1/2021, Texto Refundido de la Ley de Ordenación del Territorio, Urbanismo y Paisaje (TRLOTUP)",nucli rural / núcleo rural,,RURAL_SETTLEMENT,,False,False,,needs_review,0.1.1-draft
+Extremadura,11,"Ley 11/2018, de 21 de diciembre, de ordenación territorial y urbanística sostenible de Extremadura (LOTUS)",suelo urbano,,URBAN_CONSOLIDATED,,False,True,,verified,0.1.1-draft
+Extremadura,11,"Ley 11/2018, de 21 de diciembre, de ordenación territorial y urbanística sostenible de Extremadura (LOTUS)",suelo urbanizable,,DEVELOPABLE_SECTORED,,False,False,,verified,0.1.1-draft
+Extremadura,11,"Ley 11/2018, de 21 de diciembre, de ordenación territorial y urbanística sostenible de Extremadura (LOTUS)",suelo rústico con asentamiento tradicional,,RURAL_SETTLEMENT,art. 71,False,False,,verified,0.1.1-draft
+Extremadura,11,"Ley 11/2018, de 21 de diciembre, de ordenación territorial y urbanística sostenible de Extremadura (LOTUS)",suelo rústico (común),,RURAL_ORDINARY,,False,False,,verified,0.1.1-draft
+Extremadura,11,"Ley 11/2018, de 21 de diciembre, de ordenación territorial y urbanística sostenible de Extremadura (LOTUS)",suelo rústico protegido,,RURAL_PROTECTED,,False,False,,verified,0.1.1-draft
+Galicia,12,"Ley 2/2016, de 10 de febrero, do solo de Galicia",solo urbano consolidado,suelo urbano consolidado,URBAN_CONSOLIDATED,art. 17,False,False,,verified,0.1.1-draft
+Galicia,12,"Ley 2/2016, de 10 de febrero, do solo de Galicia",solo urbano non consolidado,suelo urbano no consolidado,URBAN_UNCONSOLIDATED,art. 17,False,False,,verified,0.1.1-draft
+Galicia,12,"Ley 2/2016, de 10 de febrero, do solo de Galicia",solo de núcleo rural tradicional,,RURAL_SETTLEMENT,art. 23,False,False,,verified,0.1.1-draft
+Galicia,12,"Ley 2/2016, de 10 de febrero, do solo de Galicia",solo de núcleo rural común,,RURAL_SETTLEMENT,art. 23,False,False,,verified,0.1.1-draft
+Galicia,12,"Ley 2/2016, de 10 de febrero, do solo de Galicia",solo urbanizable delimitado,,DEVELOPABLE_SECTORED,art. 27,False,False,,verified,0.1.1-draft
+Galicia,12,"Ley 2/2016, de 10 de febrero, do solo de Galicia",solo urbanizable non delimitado,,DEVELOPABLE_UNSECTORED,art. 27,False,False,,verified,0.1.1-draft
+Galicia,12,"Ley 2/2016, de 10 de febrero, do solo de Galicia",solo rústico de protección ordinaria,,RURAL_ORDINARY,art. 33,False,False,,verified,0.1.1-draft
+Galicia,12,"Ley 2/2016, de 10 de febrero, do solo de Galicia",solo rústico de especial protección,,RURAL_PROTECTED,art. 34,False,False,,verified,0.1.1-draft
+Comunidad de Madrid,13,"Ley 9/2001, de 17 de julio, del Suelo de la Comunidad de Madrid",suelo urbano consolidado,,URBAN_CONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Comunidad de Madrid,13,"Ley 9/2001, de 17 de julio, del Suelo de la Comunidad de Madrid",suelo urbano no consolidado,,URBAN_UNCONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Comunidad de Madrid,13,"Ley 9/2001, de 17 de julio, del Suelo de la Comunidad de Madrid",suelo urbanizable sectorizado,,DEVELOPABLE_SECTORED,,False,False,,needs_review,0.1.1-draft
+Comunidad de Madrid,13,"Ley 9/2001, de 17 de julio, del Suelo de la Comunidad de Madrid",suelo urbanizable no sectorizado,,DEVELOPABLE_UNSECTORED,,False,False,,needs_review,0.1.1-draft
+Comunidad de Madrid,13,"Ley 9/2001, de 17 de julio, del Suelo de la Comunidad de Madrid",suelo no urbanizable de protección,,RURAL_PROTECTED,,False,False,check_for_common_subtype,needs_review,0.1.1-draft
+Región de Murcia,14,"Ley 13/2015, de 30 de marzo, de ordenación territorial y urbanística de la Región de Murcia (LOTURM)",suelo urbano consolidado,,URBAN_CONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Región de Murcia,14,"Ley 13/2015, de 30 de marzo, de ordenación territorial y urbanística de la Región de Murcia (LOTURM)",suelo urbano sin consolidar,,URBAN_UNCONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Región de Murcia,14,"Ley 13/2015, de 30 de marzo, de ordenación territorial y urbanística de la Región de Murcia (LOTURM)",suelo urbanizable sectorizado,,DEVELOPABLE_SECTORED,,False,False,,needs_review,0.1.1-draft
+Región de Murcia,14,"Ley 13/2015, de 30 de marzo, de ordenación territorial y urbanística de la Región de Murcia (LOTURM)",suelo urbanizable sin sectorizar,,DEVELOPABLE_UNSECTORED,,False,False,,needs_review,0.1.1-draft
+Región de Murcia,14,"Ley 13/2015, de 30 de marzo, de ordenación territorial y urbanística de la Región de Murcia (LOTURM)",suelo no urbanizable inadecuado / común,,RURAL_ORDINARY,,False,False,,needs_review,0.1.1-draft
+Región de Murcia,14,"Ley 13/2015, de 30 de marzo, de ordenación territorial y urbanística de la Región de Murcia (LOTURM)",suelo no urbanizable de protección específica,,RURAL_PROTECTED,,False,False,,needs_review,0.1.1-draft
+Comunidad Foral de Navarra,15,"Decreto Foral Legislativo 1/2017, Texto Refundido de la Ley Foral de Ordenación del Territorio y Urbanismo",suelo urbano consolidado,,URBAN_CONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Comunidad Foral de Navarra,15,"Decreto Foral Legislativo 1/2017, Texto Refundido de la Ley Foral de Ordenación del Territorio y Urbanismo",suelo urbano no consolidado,,URBAN_UNCONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+Comunidad Foral de Navarra,15,"Decreto Foral Legislativo 1/2017, Texto Refundido de la Ley Foral de Ordenación del Territorio y Urbanismo",suelo urbanizable sectorizado,,DEVELOPABLE_SECTORED,,False,False,,needs_review,0.1.1-draft
+Comunidad Foral de Navarra,15,"Decreto Foral Legislativo 1/2017, Texto Refundido de la Ley Foral de Ordenación del Territorio y Urbanismo",suelo urbanizable no sectorizado,,DEVELOPABLE_UNSECTORED,,False,False,,needs_review,0.1.1-draft
+Comunidad Foral de Navarra,15,"Decreto Foral Legislativo 1/2017, Texto Refundido de la Ley Foral de Ordenación del Territorio y Urbanismo",suelo no urbanizable de preservación,,RURAL_ORDINARY,,False,False,,needs_review,0.1.1-draft
+Comunidad Foral de Navarra,15,"Decreto Foral Legislativo 1/2017, Texto Refundido de la Ley Foral de Ordenación del Territorio y Urbanismo",suelo no urbanizable de protección,,RURAL_PROTECTED,,False,False,,needs_review,0.1.1-draft
+País Vasco / Euskadi,16,"Ley 2/2006, de 30 de junio, de Suelo y Urbanismo del País Vasco",suelo urbano consolidado,,URBAN_CONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+País Vasco / Euskadi,16,"Ley 2/2006, de 30 de junio, de Suelo y Urbanismo del País Vasco",suelo urbano no consolidado,,URBAN_UNCONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+País Vasco / Euskadi,16,"Ley 2/2006, de 30 de junio, de Suelo y Urbanismo del País Vasco",suelo urbanizable sectorizado,,DEVELOPABLE_SECTORED,,False,False,,needs_review,0.1.1-draft
+País Vasco / Euskadi,16,"Ley 2/2006, de 30 de junio, de Suelo y Urbanismo del País Vasco",suelo urbanizable no sectorizado,,DEVELOPABLE_UNSECTORED,,False,False,,needs_review,0.1.1-draft
+País Vasco / Euskadi,16,"Ley 2/2006, de 30 de junio, de Suelo y Urbanismo del País Vasco",núcleo rural,,RURAL_SETTLEMENT,,False,False,,needs_review,0.1.1-draft
+País Vasco / Euskadi,16,"Ley 2/2006, de 30 de junio, de Suelo y Urbanismo del País Vasco",suelo no urbanizable común,,RURAL_ORDINARY,,False,False,,needs_review,0.1.1-draft
+País Vasco / Euskadi,16,"Ley 2/2006, de 30 de junio, de Suelo y Urbanismo del País Vasco",suelo no urbanizable de especial protección,,RURAL_PROTECTED,,False,False,,needs_review,0.1.1-draft
+La Rioja,17,"Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja",suelo urbano consolidado,,URBAN_CONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+La Rioja,17,"Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja",suelo urbano no consolidado,,URBAN_UNCONSOLIDATED,,False,False,,needs_review,0.1.1-draft
+La Rioja,17,"Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja",suelo urbanizable delimitado,,DEVELOPABLE_SECTORED,,False,False,,needs_review,0.1.1-draft
+La Rioja,17,"Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja",suelo urbanizable no delimitado,,DEVELOPABLE_UNSECTORED,,False,False,,needs_review,0.1.1-draft
+La Rioja,17,"Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja",suelo no urbanizable genérico,,RURAL_ORDINARY,,False,False,,needs_review,0.1.1-draft
+La Rioja,17,"Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja",suelo no urbanizable de especial protección,,RURAL_PROTECTED,,False,False,,needs_review,0.1.1-draft
