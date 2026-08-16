@@ -26,7 +26,7 @@
 # its source article and be re-verified. Regional urbanism laws are rewritten often.
 
 meta:
-  version: 0.1.4
+  version: 0.1.5
   axis: 1
   axis_name: land_classification
   updated: 2026-08-16
@@ -817,8 +817,20 @@ regions:
     languages: [es]
     law:
       citation: Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja
+      boe_url: https://www.boe.es/eli/es-ri/l/2006/05/02/5/con
+      in_force_from: 2006-11-04
     class_count: 3
-    confidence: needs_review
+    confidence: verified
+    verified_against: https://www.boe.es/eli/es-ri/l/2006/05/02/5/con
+    verified_on: 2026-08-16
+    verified_note: >
+      Consolidated text as last updated 30/12/2025 (the tenth published
+      modification), read article by article. BOE states that consolidated
+      texts are informativo and have no valor jurídico; that is enough to
+      establish what vocabulary the law uses today, which is all a crosswalk
+      row asserts, and it is what `verified` means in this file. It would not
+      be enough for an entry-into-force day — 2006-11-04 above is BOE's own
+      header field, not a reading of the disposiciones finales.
     priority: 3
     notes: >
       Small (174 municipalities) and its regional SIU was explicitly built to
@@ -826,19 +838,69 @@ regions:
       Good candidate for the first END-TO-END region: ingest, crosswalk,
       normativa extraction, Pro tier, all of it, at a size one person can
       finish. Prove the pipeline here before scaling.
+
+      NO RURAL_SETTLEMENT IN LA RIOJA, and this is a real finding rather than
+      an omission. Art. 41.1.d) classifies "los núcleos rurales tradicionales
+      legalmente asentados en el medio rural" as suelo URBANO even where they
+      lack dotaciones and servicios, and art. 42.b) puts them in the
+      consolidado category explicitly. So the thing that is a distinct rural
+      class in Galicia is, here, ordinary consolidated urban land. Do not
+      invent a RURAL_SETTLEMENT row for La Rioja to make the regions look
+      symmetrical: it would answer "can I build here" with a transformation
+      duty the holder does not have.
+
+      Art. 57 is worth knowing before ingesting: suelo urbanizable no
+      delimitado is governed by the regime of suelo no urbanizable genérico
+      until it is delimited or a plan parcial is approved. The CLASS is
+      urbanizable and the mapping below is correct; the REGIME meanwhile is
+      the rural one. Any answer about what may be built there today has to say
+      so, which is a resolver concern, not a remapping.
     mappings:
       - local: suelo urbano consolidado
         canonical: URBAN_CONSOLIDATED
+        article: art. 42.b)
+        note: >
+          "El resto de suelo urbano tendrá la consideración de suelo urbano
+          consolidado, incluidos los núcleos rurales del artículo 41.1.d)."
       - local: suelo urbano no consolidado
         canonical: URBAN_UNCONSOLIDATED
+        article: art. 42.a)
+        note: >
+          Defined by process, not by servicing state — "por estar sometidos a
+          procesos integrales de urbanización, a procesos integrales de
+          renovación o a procesos de reforma interior" — and only where the
+          plan says so expressly.
       - local: suelo urbanizable delimitado
         canonical: DEVELOPABLE_SECTORED
+        article: arts. 55.a), 56
       - local: suelo urbanizable no delimitado
         canonical: DEVELOPABLE_UNSECTORED
+        article: arts. 55.b), 57
+        note: >
+          Art. 57: until delimited or a plan parcial is definitively approved,
+          "se aplicará el régimen establecido para el suelo no urbanizable
+          genérico". Class and regime diverge here.
       - local: suelo no urbanizable genérico
         canonical: RURAL_ORDINARY
-      - local: suelo no urbanizable de especial protección
+        article: art. 46
+        note: >
+          The law's own term, and the article is permissive — "podrá
+          clasificar" — where art. 45 is mandatory.
+      - local: suelo no urbanizable especial
         canonical: RURAL_PROTECTED
+        article: art. 45
+        previous_local: suelo no urbanizable de especial protección
+        note: >
+          CORRECTED at v0.1.5. The mapping was always right; the local string
+          was not. Ley 5/2006 titles art. 45 "Suelo no urbanizable especial"
+          and its body reads "suelo no urbanizable de categoría especial".
+          "De especial protección" is Andalusian and Castilian vocabulary that
+          La Rioja does not use, and a crosswalk whose whole purpose is to
+          translate local terms cannot carry a term the law does not contain —
+          a field value read from the regional service would not have matched
+          it. The article is mandatory ("clasificará, en todo caso") and covers
+          régimen especial de protección incompatible con la transformación,
+          geotechnical or morphological risk, and dominio público limitations.
 
 # ---------------------------------------------------------------------------
 # OPEN QUESTIONS — resolve before v1.0.0

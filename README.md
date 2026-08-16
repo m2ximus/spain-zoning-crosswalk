@@ -20,7 +20,7 @@ under ~ten different names, and a three-bucket model silently destroys it.
 
 110 mappings across 17 regions + Ceuta/Melilla. Confidence per row:
 `verified` (checked against the BOE consolidated text), `high`, or
-`needs_review`. **11 regions currently need review — corrections welcome**,
+`needs_review`. **10 regions currently need review — corrections welcome**,
 especially from regional GIS and urbanism staff. See CONTRIBUTING.md.
 
 ## Versioning
