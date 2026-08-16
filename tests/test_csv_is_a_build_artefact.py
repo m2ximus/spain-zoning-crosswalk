@@ -80,12 +80,38 @@ def test_a_regions_stamp_never_runs_ahead_of_the_file(doc):
     assert ahead == [], f"stamped at an unreleased version: {ahead}"
 
 
-def test_the_stamp_matches_the_confidence_it_claims(doc):
-    # A region at `verified` carries verified_against and verified_on. The stamp
-    # is the third part of the same claim; a `verified` region still stamped at
-    # the version before anybody looked means one of the three was updated alone.
+def test_the_stamp_records_when_the_region_was_verified(doc):
+    # REPLACES test_the_stamp_matches_the_confidence_it_claims, which required
+    # every verified region to be stamped at meta.version. That was true while
+    # exactly one region had been verified and becomes false the moment a second
+    # release verifies others: it would force La Rioja, read at 0.1.5, to claim
+    # it was read at 0.2.0. The honest invariant is weaker and checkable — a
+    # verified region's stamp is the version at which somebody actually read it,
+    # so it is a real released version, never the draft placeholder, and never
+    # ahead of meta.version (which the test above already covers for all rows).
     for r in doc["regions"]:
-        if r.get("confidence") == "verified" and r.get("verified_on"):
-            assert r["verified_at_version"] == doc["meta"]["version"], (
-                f"{r['region']} claims verified_on {r['verified_on']} but is "
-                f"stamped {r['verified_at_version']}")
+        if r.get("confidence") != "verified":
+            continue
+        stamp = r.get("verified_at_version")
+        assert stamp, f"{r['region']}: verified with no verified_at_version"
+        assert "draft" not in stamp, (
+            f"{r['region']} claims verified but is stamped {stamp} — a draft "
+            "stamp means nobody recorded a reading")
+
+
+def test_this_releases_regions_carry_this_releases_version(doc):
+    # The ten regions read for 0.2.0 must say so. Without this, the previous
+    # test's weakening would let a region be upgraded to `verified` while keeping
+    # an older stamp, which reads as "verified long ago" and is unfalsifiable.
+    this_release = {
+        "Catalunya", "Galicia", "Cantabria", "Extremadura", "Canarias",
+        "Aragón", "Principado de Asturias", "Comunitat Valenciana",
+        "Illes Balears", "Región de Murcia",
+    }
+    by_name = {r["region"]: r for r in doc["regions"]}
+    for name in this_release:
+        r = by_name[name]
+        assert r["confidence"] == "verified", f"{name}: not verified"
+        assert r["verified_at_version"] == "0.2.0", (
+            f"{name} was verified in this release but is stamped "
+            f"{r['verified_at_version']}")
