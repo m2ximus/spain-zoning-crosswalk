@@ -271,6 +271,7 @@ regions:
       supersedes: Ley 7/2002 (LOUA)
     class_count: 2
     confidence: verified
+    verified_at_version: "0.1.1-draft"
     outlier: true
     notes: >
       LISTA distinguishes only two classes, rústico and urbano, abolishing
@@ -314,6 +315,7 @@ regions:
       citation: Decreto Legislativo 1/2014, Texto Refundido de la Ley de Urbanismo de Aragón
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     mappings:
       - local: suelo urbano consolidado
         canonical: URBAN_CONSOLIDATED
@@ -339,6 +341,7 @@ regions:
       regulation: Decreto 63/2022, Reglamento de Ordenación del Territorio y Urbanismo (ROTU)
     class_count: 3
     confidence: verified
+    verified_at_version: "0.1.1-draft"
     notes: >
       TROTU art. 112: general plans classify concejo land as urbano,
       urbanizable and no urbanizable. Asturias handles rural settlements NOT as
@@ -378,6 +381,7 @@ regions:
       also: Ley 6/1997 del suelo rústico de las Illes Balears
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     notes: >
       Insular plans (Planes Territoriales Insulares, one per island) sit above
       municipal plans and materially constrain rústico. Treat the PTI as an
@@ -403,6 +407,7 @@ regions:
       citation: Ley 4/2017, de 13 de julio, del Suelo y de los Espacios Naturales Protegidos de Canarias
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     notes: >
       CRS HAZARD: Canary geometry is WGS84, not ETRS89 like the rest of Spain.
       Reproject on ingest or the islands land in the Atlantic.
@@ -438,6 +443,7 @@ regions:
       supersedes: Ley 2/2001
     class_count: 3
     confidence: verified
+    verified_at_version: "0.1.1-draft"
     notes: >
       Art. 34 sets classes and the categories of rústico. Urbano art. 37,
       urbanizable art. 42, rústico art. 46, with especial protección art. 49
@@ -485,6 +491,7 @@ regions:
       regulation: Decreto 22/2004, Reglamento de Urbanismo de Castilla y León
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     notes: >
       Unusually rich rústico categorisation — CyL is the reference case for
       granular rural sub-types. Also holds the largest concentration of EATIMs
@@ -517,6 +524,7 @@ regions:
       citation: Decreto Legislativo 1/2010, Texto Refundido de la Ley de Ordenación del Territorio y de la Actividad Urbanística (TRLOTAU)
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     mappings:
       - local: suelo urbano consolidado
         canonical: URBAN_CONSOLIDATED
@@ -537,6 +545,7 @@ regions:
       citation: Decret Legislatiu 1/2010, Text Refós de la Llei d'urbanisme de Catalunya (TRLUC)
     class_count: 3
     confidence: high
+    verified_at_version: "0.1.1-draft"
     priority: 1
     notes: >
       DO THIS REGION FIRST. The MUC already resolves 947 municipalities into a
@@ -574,6 +583,7 @@ regions:
       citation: Decreto Legislativo 1/2021, Texto Refundido de la Ley de Ordenación del Territorio, Urbanismo y Paisaje (TRLOTUP)
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     notes: >
       Valencia pioneered an intermediate route: Programas de Actuación
       Integrada can incorporate non-urbanizable land alongside urbanizable,
@@ -606,6 +616,7 @@ regions:
       supersedes: Ley 15/2001 (LSOTEX)
     class_count: 3
     confidence: verified
+    verified_at_version: "0.1.1-draft"
     notes: >
       CORRECTION TO A COMMON ASSUMPTION: LOTUS did NOT abolish urbanizable.
       It classifies land as urbano, urbanizable and rústico. What it did was
@@ -643,6 +654,7 @@ regions:
       supersedes: Ley 9/2002
     class_count: 4
     confidence: verified
+    verified_at_version: "0.1.1-draft"
     outlier: true
     notes: >
       THE STRUCTURAL OUTLIER. General plans and planes básicos municipales
@@ -693,6 +705,7 @@ regions:
       citation: Ley 9/2001, de 17 de julio, del Suelo de la Comunidad de Madrid
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     notes: >
       Madrid's third class is named suelo no urbanizable DE PROTECCIÓN — the
       law frames non-developable land as inherently protected rather than
@@ -721,6 +734,7 @@ regions:
       technical_instruction: Instrucción técnica sobre estandarización y normalización de instrumentos de planeamiento
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     priority: 2
     notes: >
       MOST IMPORTANT REGION FOR THIS PROJECT AFTER CATALUNYA — not for its size
@@ -756,6 +770,7 @@ regions:
       citation: Decreto Foral Legislativo 1/2017, Texto Refundido de la Ley Foral de Ordenación del Territorio y Urbanismo
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     notes: >
       Foral regime. SEPARATE CADASTRE — Navarra does not use the Dirección
       General del Catastro. Different endpoints, different data model. Do this
@@ -784,6 +799,7 @@ regions:
       citation: Ley 2/2006, de 30 de junio, de Suelo y Urbanismo del País Vasco
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     notes: >
       THREE SEPARATE CADASTRES, one per foral diputación: Araba/Álava, Bizkaia,
       Gipuzkoa. Not the national Catastro. Plan documents may be in Euskera.
@@ -821,6 +837,7 @@ regions:
       in_force_from: 2006-11-04
     class_count: 3
     confidence: verified
+    verified_at_version: "0.1.5"
     verified_against: https://www.boe.es/eli/es-ri/l/2006/05/02/5/con
     verified_on: 2026-08-16
     verified_note: >

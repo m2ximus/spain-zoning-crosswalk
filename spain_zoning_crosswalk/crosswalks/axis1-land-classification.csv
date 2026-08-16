@@ -1,4 +1,4 @@
-region,ine_ca_code,law,local_term,local_term_es,canonical,article,legacy,label_abolished,flag,confidence,crosswalk_version
+region,ine_ca_code,law,local_term,local_term_es,canonical,article,legacy,label_abolished,flag,confidence,verified_at_version
 Andalucía,01,"Ley 7/2021, de 1 de diciembre, de impulso para la sostenibilidad del territorio de Andalucía (LISTA)",suelo urbano,,URBAN_CONSOLIDATED,,False,True,,verified,0.1.1-draft
 Andalucía,01,"Ley 7/2021, de 1 de diciembre, de impulso para la sostenibilidad del territorio de Andalucía (LISTA)",suelo rústico con actuación de nueva urbanización,,DEVELOPABLE_SECTORED,,False,False,,verified,0.1.1-draft
 Andalucía,01,"Ley 7/2021, de 1 de diciembre, de impulso para la sostenibilidad del territorio de Andalucía (LISTA)",suelo rústico común,,RURAL_ORDINARY,,False,False,,verified,0.1.1-draft
@@ -105,7 +105,7 @@ País Vasco / Euskadi,16,"Ley 2/2006, de 30 de junio, de Suelo y Urbanismo del P
 País Vasco / Euskadi,16,"Ley 2/2006, de 30 de junio, de Suelo y Urbanismo del País Vasco",suelo no urbanizable de especial protección,,RURAL_PROTECTED,,False,False,,needs_review,0.1.1-draft
 La Rioja,17,"Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja",suelo urbano consolidado,,URBAN_CONSOLIDATED,art. 42.b),False,False,,verified,0.1.5
 La Rioja,17,"Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja",suelo urbano no consolidado,,URBAN_UNCONSOLIDATED,art. 42.a),False,False,,verified,0.1.5
-La Rioja,17,"Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja",suelo urbanizable delimitado,,DEVELOPABLE_SECTORED,arts. 55.a) 56,False,False,,verified,0.1.5
-La Rioja,17,"Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja",suelo urbanizable no delimitado,,DEVELOPABLE_UNSECTORED,arts. 55.b) 57,False,False,,verified,0.1.5
+La Rioja,17,"Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja",suelo urbanizable delimitado,,DEVELOPABLE_SECTORED,"arts. 55.a), 56",False,False,,verified,0.1.5
+La Rioja,17,"Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja",suelo urbanizable no delimitado,,DEVELOPABLE_UNSECTORED,"arts. 55.b), 57",False,False,,verified,0.1.5
 La Rioja,17,"Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja",suelo no urbanizable genérico,,RURAL_ORDINARY,art. 46,False,False,,verified,0.1.5
 La Rioja,17,"Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja",suelo no urbanizable especial,,RURAL_PROTECTED,art. 45,False,False,,verified,0.1.5
