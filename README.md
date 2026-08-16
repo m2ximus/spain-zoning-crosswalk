@@ -42,6 +42,7 @@ Release history:
 | `v0.1.1` | Data only — not pip-installable (no packaging metadata). |
 | `v0.1.2` | First installable release; `meta.version` was still stale in-file. |
 | `v0.1.3` | First self-consistent release; version sync enforced by CI. |
+| `v0.1.4` | Adds OQ-5: the ordinario/protegido distinction is not carried as a feature layer by the Andalusian regional services surveyed 2026-08-16, with the services listed by URL. |
 
 ## Licence
 

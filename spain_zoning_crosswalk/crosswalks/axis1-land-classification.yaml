@@ -26,7 +26,7 @@
 # its source article and be re-verified. Regional urbanism laws are rewritten often.
 
 meta:
-  version: 0.1.3
+  version: 0.1.4
   axis: 1
   axis_name: land_classification
   updated: 2026-08-16
@@ -886,21 +886,66 @@ open_questions:
     question: >
       RURAL_ORDINARY vs RURAL_PROTECTED is the distinction with the largest
       legal consequence in this axis — on especially protected land the
-      urbanistic infraction generally does not prescribe, so the answer for a
-      building without licence is not "harder", it is a different answer. Which
-      published data source actually carries it, per municipality?
+      urbanistic infraction generally does not prescribe, so for a building
+      raised without licence the answer is not "harder", it is a different
+      answer. Which published data source carries the distinction, per
+      municipality?
     finding: >
-      Checked in Andalucía on 2026-08-16, as the region with the strongest
-      case for having it: none does. The national land-use layer (SIU,
-      Sistema de Información Urbana) publishes "SUELO NO URBANIZABLE" as one
-      undivided value across the whole country, so it maps to
-      RURAL_UNSPECIFIED and cannot map to either. The regional geoportal
-      (IDEAndalucía / SITU@) publishes a municipal PLAN REGISTRY — which
-      instrument each municipality has — and TERRITORIAL protection polygons,
-      but no municipal clasificación del suelo layer at all: 338 layers were
-      swept across every workspace of the serving GeoServer, plus the INSPIRE
-      catalogue and the regional open-data portal. The per-municipality
-      services that do exist are WMS images published "sin carácter legal".
+      The ordinario/protegido distinction is NOT carried as a feature layer by
+      the Andalusian regional services surveyed on 2026-08-16 (listed under
+      sources_checked below), nor by the national land-use layer, which
+      publishes SUELO NO URBANIZABLE as one undivided value for the whole
+      country and therefore maps only to RURAL_UNSPECIFIED. What the regional
+      services do publish is a municipal PLAN REGISTRY — which instrument each
+      municipality has in force — and TERRITORIAL protection polygons; the
+      per-municipality planeamiento services that exist are WMS images
+      published "sin carácter legal". The distinction is expressed only in the
+      individual planning instruments. The crosswalk therefore cannot resolve
+      it from regional layers.
+    survey_date: 2026-08-16
+    survey_scope: >
+      Andalucía, chosen as the region with the strongest prior case for
+      carrying the attribute (largest volume of rural building
+      regularisation, and a long-standing regional urbanism information
+      system). The finding is stated for the services listed; it is not
+      asserted for the other sixteen regions, which have not been surveyed.
+    sources_checked:
+      - name: SIU — Sistema de Información Urbana (national, Ministerio)
+        url: https://www.mivau.gob.es/urbanismo-y-suelo/sistema-de-informacion-urbana
+        holds: >
+          Municipal land-class polygons for part of the country. SUELO NO
+          URBANIZABLE is a single undivided value; no ordinario/protegido
+          split at any coverage level.
+      - name: IDEAndalucía — INSPIRE catalogue (CSW / ES API)
+        url: https://www.ideandalucia.es/catalogo/inspire/srv/spa
+        holds: >
+          37 records matching "planeamiento" on the survey date, all of them
+          per-municipality WMS image services (largest publisher: Diputación
+          de Córdoba), titled "sin carácter legal". Rendered pictures, not
+          features.
+      - name: SIGC GeoServer (the service behind the VITUA viewer)
+        url: https://hcsigc.juntadeandalucia.es/geoserver/CFATV/wfs
+        holds: >
+          338 layers swept across every workspace. The two planning layers
+          are situa01_instrumentos_de_ordenacion_urbanistica (785 features,
+          one per municipality: INE code plus the plan FIGURA — PGOU, Normas
+          Subsidiarias, Delimitación de Suelo Urbano, sin planeamiento) and
+          situa01_protecciones_territoriales_poligonales (2,418 polygons
+          carrying norma, nomplan and url). Neither is a municipal
+          clasificación del suelo layer.
+      - name: SITU@ — Sistema de Información Territorial y Urbanística de Andalucía
+        url: https://www.juntadeandalucia.es/organismos/fomentoarticulaciondelterritorioyvivienda/servicios/situa.html
+        holds: >
+          The public interface over the registry above. It reports the
+          instrument in force per municipality, not the classification of
+          land within it. Its own notice states that the information "no
+          tiene carácter oficial ni sustituye a la proporcionada por el
+          Registro Autonómico".
+      - name: Portal de datos abiertos de la Junta de Andalucía (CKAN)
+        url: https://www.juntadeandalucia.es/datosabiertos/portal/api/3/action/package_search?q=planeamiento&rows=30
+        holds: >
+          One planning dataset, "Planificación urbanística en Andalucía 2020":
+          province-level statistics. Counts of municipalities, no geometry.
     recommendation: >
       Treat this as structural rather than as a coverage gap waiting on a
       download. The distinction is a determination MADE BY the municipal plan,
@@ -922,3 +967,11 @@ open_questions:
       will tell owners their building can never be regularised on evidence
       that decides no such thing. These layers belong on axis 4 (overlays),
       where they can qualify an answer without becoming one.
+    correction_welcome: >
+      This is a negative result about published services on a given date, and
+      negative results age. If a regional feature service carries the
+      ordinario/protegido attribute — in Andalucía or in any other autonomous
+      community — please open a pull request adding it here, with the service
+      URL, the layer name and the attribute that carries the distinction. A
+      single counterexample changes the recommendation above from structural
+      to region-specific, which is a change worth making.
