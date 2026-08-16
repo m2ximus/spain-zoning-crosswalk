@@ -30,6 +30,16 @@ CANON = {"URBAN_CONSOLIDATED","URBAN_UNCONSOLIDATED","DEVELOPABLE_SECTORED",
          "DEVELOPABLE_UNSECTORED","RURAL_SETTLEMENT","RURAL_ORDINARY","RURAL_PROTECTED"}
 CONF = {"verified","high","needs_review"}
 
+# Added at 0.2.0, and duplicated deliberately from tests/test_verified_region_
+# schema.py. The tests are the discipline; this file is the gate a CONSUMER runs,
+# with pyyaml alone and no pytest, and a vocabulary that only pytest enforces is
+# not enforced for them. `risk` is here because the reading forced it; there is no
+# `within_urban` because the settlement-inside-urban case maps to URBAN_* with the
+# `rural_settlement` flag instead. Both decisions are argued in the YAML.
+BASIS = {"environmental","economic","infrastructure","coastal",
+         "interest","plan","sectoral","risk","none"}
+POSITION = {"own_class","within_rural","none"}
+
 doc = yaml.safe_load(DATA.read_text(encoding="utf-8"))
 errs, total = [], 0
 
@@ -68,6 +78,45 @@ for r in regions:
         seen_canon.add(c)
         if not m.get("local"):
             errs.append(f"{name}: mapping missing local term")
+
+        where = f"{name}/{m.get('local','?')}"
+        pb = m.get("protection_basis")
+        if pb is not None:
+            vals = pb if isinstance(pb, list) else [pb]
+            bad = sorted(set(vals) - BASIS)
+            if bad:
+                errs.append(f"{where}: protection_basis {bad} not in vocabulary")
+            if len(vals) > 1 and "none" in vals:
+                errs.append(f"{where}: `none` cannot be one basis among several")
+            # A protected-land reason on buildable land is a sectoral overlay
+            # leaking onto the classification axis, which is the one thing this
+            # crosswalk exists to prevent.
+            if str(c).startswith(("URBAN_", "DEVELOPABLE_")):
+                errs.append(f"{where}: protection_basis on {c}")
+        elif c == "RURAL_PROTECTED" and r.get("confidence") == "verified":
+            errs.append(f"{where}: RURAL_PROTECTED in a verified region with no protection_basis")
+
+        sp = m.get("settlement_position")
+        if sp is not None:
+            if sp not in POSITION:
+                errs.append(f"{where}: settlement_position {sp!r} not in vocabulary")
+            if c != "RURAL_SETTLEMENT":
+                errs.append(f"{where}: settlement_position on {c}")
+
+        rs = m.get("rural_settlement")
+        if rs is not None:
+            if not isinstance(rs, bool):
+                errs.append(f"{where}: rural_settlement must be true or false")
+            elif rs and not str(c).startswith("URBAN_"):
+                # The flag exists for the figures a statute puts INSIDE urban
+                # land (Murcia art. 81.4, Cantabria after 2024). Anywhere else it
+                # either duplicates the canonical value or contradicts it.
+                errs.append(f"{where}: rural_settlement is true on {c}")
+
+        if m.get("valid_to") and not m.get("valid_from"):
+            errs.append(f"{where}: valid_to with no valid_from")
+        if m.get("valid_from") and m.get("valid_to") and m["valid_from"] >= m["valid_to"]:
+            errs.append(f"{where}: valid_from is not before valid_to")
 
 # --- The CSV is a build artefact -------------------------------------------
 # It was hand-maintained until 0.1.5 and nothing checked it, which made it a
