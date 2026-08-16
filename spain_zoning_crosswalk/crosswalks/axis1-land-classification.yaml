@@ -2872,6 +2872,28 @@ open_questions:
           Municipal land-class polygons for part of the country. SUELO NO
           URBANIZABLE is a single undivided value; no ordinario/protegido
           split at any coverage level.
+
+
+          SIU carries no rural-settlement or protection distinction; regional
+          layers are required for both. SIU is a national harmonisation to
+          three classes — urbano, urbanizable, no urbanizable — so the regions
+          that hold a rural settlement (núcleo rural, núcleo rural
+          tradicional, and their regional equivalents) as a class of its own
+          are folded into those three on the way in. The distinction is
+          therefore not recoverable from the national layer even where the
+          region publishes it: a settlement, like an ordinario/protegido
+          split, has to come from that region's own service or from the
+          individual planning instrument. Both losses have the same shape and
+          the same remedy, one level apart in this axis.
+
+
+          The polygon download's attribute table nevertheless carries a
+          NuclRural column. Its domain and meaning are undocumented — the
+          alphanumeric metadata sheet defines every other field, and
+          CLASES_SUELO.qmd, the only metadata shipped inside the geometry
+          download, has an empty title and an empty abstract. It is recorded
+          here so that a consumer who finds the column knows this crosswalk
+          does not resolve a land class from it.
       - name: IDEAndalucía — INSPIRE catalogue (CSW / ES API)
         url: https://www.ideandalucia.es/catalogo/inspire/srv/spa
         holds: >
