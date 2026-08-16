@@ -26,7 +26,7 @@
 # its source article and be re-verified. Regional urbanism laws are rewritten often.
 
 meta:
-  version: 0.1.4
+  version: 0.1.5
   axis: 1
   axis_name: land_classification
   updated: 2026-08-16
@@ -271,6 +271,7 @@ regions:
       supersedes: Ley 7/2002 (LOUA)
     class_count: 2
     confidence: verified
+    verified_at_version: "0.1.1-draft"
     outlier: true
     notes: >
       LISTA distinguishes only two classes, rústico and urbano, abolishing
@@ -314,6 +315,7 @@ regions:
       citation: Decreto Legislativo 1/2014, Texto Refundido de la Ley de Urbanismo de Aragón
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     mappings:
       - local: suelo urbano consolidado
         canonical: URBAN_CONSOLIDATED
@@ -339,6 +341,7 @@ regions:
       regulation: Decreto 63/2022, Reglamento de Ordenación del Territorio y Urbanismo (ROTU)
     class_count: 3
     confidence: verified
+    verified_at_version: "0.1.1-draft"
     notes: >
       TROTU art. 112: general plans classify concejo land as urbano,
       urbanizable and no urbanizable. Asturias handles rural settlements NOT as
@@ -378,6 +381,7 @@ regions:
       also: Ley 6/1997 del suelo rústico de las Illes Balears
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     notes: >
       Insular plans (Planes Territoriales Insulares, one per island) sit above
       municipal plans and materially constrain rústico. Treat the PTI as an
@@ -403,6 +407,7 @@ regions:
       citation: Ley 4/2017, de 13 de julio, del Suelo y de los Espacios Naturales Protegidos de Canarias
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     notes: >
       CRS HAZARD: Canary geometry is WGS84, not ETRS89 like the rest of Spain.
       Reproject on ingest or the islands land in the Atlantic.
@@ -438,6 +443,7 @@ regions:
       supersedes: Ley 2/2001
     class_count: 3
     confidence: verified
+    verified_at_version: "0.1.1-draft"
     notes: >
       Art. 34 sets classes and the categories of rústico. Urbano art. 37,
       urbanizable art. 42, rústico art. 46, with especial protección art. 49
@@ -485,6 +491,7 @@ regions:
       regulation: Decreto 22/2004, Reglamento de Urbanismo de Castilla y León
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     notes: >
       Unusually rich rústico categorisation — CyL is the reference case for
       granular rural sub-types. Also holds the largest concentration of EATIMs
@@ -517,6 +524,7 @@ regions:
       citation: Decreto Legislativo 1/2010, Texto Refundido de la Ley de Ordenación del Territorio y de la Actividad Urbanística (TRLOTAU)
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     mappings:
       - local: suelo urbano consolidado
         canonical: URBAN_CONSOLIDATED
@@ -537,6 +545,7 @@ regions:
       citation: Decret Legislatiu 1/2010, Text Refós de la Llei d'urbanisme de Catalunya (TRLUC)
     class_count: 3
     confidence: high
+    verified_at_version: "0.1.1-draft"
     priority: 1
     notes: >
       DO THIS REGION FIRST. The MUC already resolves 947 municipalities into a
@@ -574,6 +583,7 @@ regions:
       citation: Decreto Legislativo 1/2021, Texto Refundido de la Ley de Ordenación del Territorio, Urbanismo y Paisaje (TRLOTUP)
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     notes: >
       Valencia pioneered an intermediate route: Programas de Actuación
       Integrada can incorporate non-urbanizable land alongside urbanizable,
@@ -606,6 +616,7 @@ regions:
       supersedes: Ley 15/2001 (LSOTEX)
     class_count: 3
     confidence: verified
+    verified_at_version: "0.1.1-draft"
     notes: >
       CORRECTION TO A COMMON ASSUMPTION: LOTUS did NOT abolish urbanizable.
       It classifies land as urbano, urbanizable and rústico. What it did was
@@ -643,6 +654,7 @@ regions:
       supersedes: Ley 9/2002
     class_count: 4
     confidence: verified
+    verified_at_version: "0.1.1-draft"
     outlier: true
     notes: >
       THE STRUCTURAL OUTLIER. General plans and planes básicos municipales
@@ -693,6 +705,7 @@ regions:
       citation: Ley 9/2001, de 17 de julio, del Suelo de la Comunidad de Madrid
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     notes: >
       Madrid's third class is named suelo no urbanizable DE PROTECCIÓN — the
       law frames non-developable land as inherently protected rather than
@@ -721,6 +734,7 @@ regions:
       technical_instruction: Instrucción técnica sobre estandarización y normalización de instrumentos de planeamiento
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     priority: 2
     notes: >
       MOST IMPORTANT REGION FOR THIS PROJECT AFTER CATALUNYA — not for its size
@@ -756,6 +770,7 @@ regions:
       citation: Decreto Foral Legislativo 1/2017, Texto Refundido de la Ley Foral de Ordenación del Territorio y Urbanismo
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     notes: >
       Foral regime. SEPARATE CADASTRE — Navarra does not use the Dirección
       General del Catastro. Different endpoints, different data model. Do this
@@ -784,6 +799,7 @@ regions:
       citation: Ley 2/2006, de 30 de junio, de Suelo y Urbanismo del País Vasco
     class_count: 3
     confidence: needs_review
+    verified_at_version: "0.1.1-draft"
     notes: >
       THREE SEPARATE CADASTRES, one per foral diputación: Araba/Álava, Bizkaia,
       Gipuzkoa. Not the national Catastro. Plan documents may be in Euskera.
@@ -817,8 +833,25 @@ regions:
     languages: [es]
     law:
       citation: Ley 5/2006, de 2 de mayo, de Ordenación del Territorio y Urbanismo de La Rioja
+      boe_url: https://www.boe.es/eli/es-ri/l/2006/05/02/5/con
+      in_force_from: 2006-11-04
     class_count: 3
-    confidence: needs_review
+    confidence: verified
+    verified_at_version: "0.1.5"
+    verified_against: https://www.boe.es/eli/es-ri/l/2006/05/02/5/con
+    verified_on: 2026-08-16
+    verified_note: >
+      Consolidated text as last updated 30/12/2025, read article by article.
+      The archived copy is the text tab, which does not carry the modification
+      list; how many layers of modification stand behind that date is therefore
+      not established by what was read, and no count is asserted here. The date
+      itself is: it appears three times in the archived bytes. BOE states that
+      consolidated
+      texts are informativo and have no valor jurídico; that is enough to
+      establish what vocabulary the law uses today, which is all a crosswalk
+      row asserts, and it is what `verified` means in this file. It would not
+      be enough for an entry-into-force day — 2006-11-04 above is BOE's own
+      header field, not a reading of the disposiciones finales.
     priority: 3
     notes: >
       Small (174 municipalities) and its regional SIU was explicitly built to
@@ -826,19 +859,92 @@ regions:
       Good candidate for the first END-TO-END region: ingest, crosswalk,
       normativa extraction, Pro tier, all of it, at a size one person can
       finish. Prove the pipeline here before scaling.
+
+      NO RURAL_SETTLEMENT IN LA RIOJA, and this is a real finding rather than
+      an omission. Art. 41.1.d) classifies "los núcleos rurales tradicionales
+      legalmente asentados en el medio rural" as suelo URBANO even where they
+      lack dotaciones and servicios, and art. 42.b) puts them in the
+      consolidado category explicitly. So the thing that is a distinct rural
+      class in Galicia is, here, ordinary consolidated urban land. Do not
+      invent a RURAL_SETTLEMENT row for La Rioja to make the regions look
+      symmetrical: it would answer "can I build here" with a transformation
+      duty the holder does not have.
+
+      Art. 57 is worth knowing before ingesting: suelo urbanizable no
+      delimitado is governed by the regime of suelo no urbanizable genérico
+      until it is delimited or a plan parcial is approved. The CLASS is
+      urbanizable and the mapping below is correct; the REGIME meanwhile is
+      the rural one. Any answer about what may be built there today has to say
+      so, which is a resolver concern, not a remapping.
+
+      THE MAPPING BELOW IS THE LAW'S VOCABULARY, NOT NECESSARILY THE PLAN'S.
+      DT primera gives municipalities until the end of 2030 to adapt their
+      planeamiento to Ley 5/2006, and until they do, "se aplicarán las
+      determinaciones del planeamiento vigente que no sean contrarias a esta
+      ley". A plan approved under Ley 10/1998 can therefore still be in force
+      today using its own terms. Anything matching local strings against these
+      rows should carry the plan's vintage and expect misses on unadapted
+      plans; a miss there is an unadapted plan, not a defective crosswalk row.
+
+      Art. 39, for municipalities with no plan at all: land that is not urbano
+      under art. 41 "tendrá la consideración de suelo no urbanizable", and
+      "no existirá suelo urbanizable, en ninguna de sus categorías". So the
+      absence of a plan is not the absence of a class. Which of arts. 45/46
+      applies is not settled by art. 39, and inferring RURAL_ORDINARY from
+      silence would be exactly the guess the article does not make.
+
+      DA segunda: the no-urbanizable protection regime is a FLOOR — "tienen el
+      carácter de norma mínima" — and both territorial instruments and
+      municipal planning may impose stricter protection on specific zones.
+      A parcel can therefore be more protected than its class alone implies.
+      Consistent with the rule that a protection layer may refuse and may
+      never permit.
     mappings:
       - local: suelo urbano consolidado
         canonical: URBAN_CONSOLIDATED
+        article: art. 42.b)
+        note: >
+          "El resto de suelo urbano tendrá la consideración de suelo urbano
+          consolidado, incluidos los núcleos rurales del artículo 41.1.d)."
       - local: suelo urbano no consolidado
         canonical: URBAN_UNCONSOLIDATED
+        article: art. 42.a)
+        note: >
+          Defined by process, not by servicing state — "por estar sometidos a
+          procesos integrales de urbanización, a procesos integrales de
+          renovación o a procesos de reforma interior" — and only where the
+          plan says so expressly.
       - local: suelo urbanizable delimitado
         canonical: DEVELOPABLE_SECTORED
+        article: arts. 55.a), 56
       - local: suelo urbanizable no delimitado
         canonical: DEVELOPABLE_UNSECTORED
+        article: arts. 55.b), 57
+        note: >
+          Art. 57: until delimited or a plan parcial is definitively approved,
+          "se aplicará el régimen establecido para el suelo no urbanizable
+          genérico". Class and regime diverge here.
       - local: suelo no urbanizable genérico
         canonical: RURAL_ORDINARY
-      - local: suelo no urbanizable de especial protección
+        article: art. 46
+        note: >
+          The law's own term, and the article is permissive — "podrá
+          clasificar" — where art. 45 is mandatory.
+      - local: suelo no urbanizable especial
         canonical: RURAL_PROTECTED
+        article: art. 45
+        previous_local: suelo no urbanizable de especial protección
+        note: >
+          CORRECTED at v0.1.5. The mapping was always right; the local string
+          was not. Ley 5/2006 titles art. 45 "Suelo no urbanizable especial"
+          and its body reads "suelo no urbanizable de categoría especial".
+          "De especial protección" is Andalusian and Castilian vocabulary that
+          La Rioja does not use, and a crosswalk whose whole purpose is to
+          translate local terms cannot carry a term the law does not contain —
+          a field value read from the regional service would not have matched
+          it. The article is mandatory ("clasificará, en todo caso") and covers
+          régimen especial de protección incompatible con la transformación,
+          geotechnical or morphological risk, and dominio público limitations.
 
 # ---------------------------------------------------------------------------
 # OPEN QUESTIONS — resolve before v1.0.0

@@ -7,5 +7,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
-      - run: pip install pyyaml
+      - run: pip install pyyaml pytest
       - run: python validate.py
+      # The CSV check inside validate.py is the one that matters; these
+      # assert the generator itself, including that a hand edit is caught.
+      - run: python -m pytest tests -q

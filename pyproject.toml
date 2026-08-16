@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spain-zoning-crosswalk"
-version = "0.1.4"
+version = "0.1.5"
 description = "Axis-1 crosswalk mapping the land-classification vocabulary of Spain's 17 autonomous communities onto a canonical enum defined by legal effect"
 readme = "README.md"
 requires-python = ">=3.11"

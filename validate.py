@@ -9,6 +9,8 @@ import sys
 import tomllib
 from pathlib import Path
 
+from spain_zoning_crosswalk import csvgen
+
 try:
     import yaml
 except ImportError:
@@ -20,7 +22,9 @@ HERE = Path(__file__).parent
 # Resolved relative to this file so validation needs no install -- CI runs it
 # with pyyaml alone.
 DATA = HERE / "spain_zoning_crosswalk" / "crosswalks" / "axis1-land-classification.yaml"
+CSV = HERE / "spain_zoning_crosswalk" / "crosswalks" / "axis1-land-classification.csv"
 PYPROJECT = HERE / "pyproject.toml"
+WRITE = "--write" in sys.argv
 
 CANON = {"URBAN_CONSOLIDATED","URBAN_UNCONSOLIDATED","DEVELOPABLE_SECTORED",
          "DEVELOPABLE_UNSECTORED","RURAL_SETTLEMENT","RURAL_ORDINARY","RURAL_PROTECTED"}
@@ -64,6 +68,35 @@ for r in regions:
         seen_canon.add(c)
         if not m.get("local"):
             errs.append(f"{name}: mapping missing local term")
+
+# --- The CSV is a build artefact -------------------------------------------
+# It was hand-maintained until 0.1.5 and nothing checked it, which made it a
+# second source of truth for the same 110 mappings — the kind that stays wrong
+# quietly, because the file that is read by consumers is not the file that is
+# reviewed. It is now rendered from the YAML. `--write` regenerates it; without
+# it, a difference is an error, so a hand edit fails the build instead of
+# shipping. The first run of this check found one: a comma dropped from an
+# article citation to avoid having to quote the field.
+rendered = csvgen.render(doc)
+if WRITE:
+    CSV.write_text(rendered, encoding="utf-8")
+    print(f"wrote {CSV.name}")
+elif not CSV.exists():
+    errs.append(f"{CSV.name} is missing — regenerate it with `python validate.py --write`")
+elif CSV.read_text(encoding="utf-8") != rendered:
+    errs.append(
+        f"{CSV.name} is not what {DATA.name} generates. The CSV is output, not "
+        "a place to edit: regenerate it with `python validate.py --write` and "
+        "commit the result. If the difference is one you meant, you meant it in "
+        "the YAML."
+    )
+
+# Every region declares the version at which it was last established. The column
+# used to be called crosswalk_version, which read as the version of the FILE and
+# stamped rows nobody had re-checked with a version that implied somebody had.
+for r in regions:
+    if not r.get("verified_at_version"):
+        errs.append(f"{r.get('region','?')}: no verified_at_version")
 
 missing = CANON - seen_canon
 if missing:
