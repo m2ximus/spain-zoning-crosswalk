@@ -824,8 +824,12 @@ regions:
     verified_against: https://www.boe.es/eli/es-ri/l/2006/05/02/5/con
     verified_on: 2026-08-16
     verified_note: >
-      Consolidated text as last updated 30/12/2025 (the tenth published
-      modification), read article by article. BOE states that consolidated
+      Consolidated text as last updated 30/12/2025, read article by article.
+      The archived copy is the text tab, which does not carry the modification
+      list; how many layers of modification stand behind that date is therefore
+      not established by what was read, and no count is asserted here. The date
+      itself is: it appears three times in the archived bytes. BOE states that
+      consolidated
       texts are informativo and have no valor jurídico; that is enough to
       establish what vocabulary the law uses today, which is all a crosswalk
       row asserts, and it is what `verified` means in this file. It would not
@@ -855,6 +859,29 @@ regions:
       urbanizable and the mapping below is correct; the REGIME meanwhile is
       the rural one. Any answer about what may be built there today has to say
       so, which is a resolver concern, not a remapping.
+
+      THE MAPPING BELOW IS THE LAW'S VOCABULARY, NOT NECESSARILY THE PLAN'S.
+      DT primera gives municipalities until the end of 2030 to adapt their
+      planeamiento to Ley 5/2006, and until they do, "se aplicarán las
+      determinaciones del planeamiento vigente que no sean contrarias a esta
+      ley". A plan approved under Ley 10/1998 can therefore still be in force
+      today using its own terms. Anything matching local strings against these
+      rows should carry the plan's vintage and expect misses on unadapted
+      plans; a miss there is an unadapted plan, not a defective crosswalk row.
+
+      Art. 39, for municipalities with no plan at all: land that is not urbano
+      under art. 41 "tendrá la consideración de suelo no urbanizable", and
+      "no existirá suelo urbanizable, en ninguna de sus categorías". So the
+      absence of a plan is not the absence of a class. Which of arts. 45/46
+      applies is not settled by art. 39, and inferring RURAL_ORDINARY from
+      silence would be exactly the guess the article does not make.
+
+      DA segunda: the no-urbanizable protection regime is a FLOOR — "tienen el
+      carácter de norma mínima" — and both territorial instruments and
+      municipal planning may impose stricter protection on specific zones.
+      A parcel can therefore be more protected than its class alone implies.
+      Consistent with the rule that a protection layer may refuse and may
+      never permit.
     mappings:
       - local: suelo urbano consolidado
         canonical: URBAN_CONSOLIDATED
