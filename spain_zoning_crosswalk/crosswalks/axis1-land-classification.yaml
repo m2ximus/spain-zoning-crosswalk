@@ -29,7 +29,7 @@ meta:
   version: 0.1.3
   axis: 1
   axis_name: land_classification
-  updated: 2026-08-15
+  updated: 2026-08-16
   canonical_count: 7
   regions_covered: 17
   license: CC-BY-4.0
@@ -881,3 +881,44 @@ open_questions:
       Do not ship any needs_review row to a paying user. Free tier can show
       geometry with a coverage caveat. Verify against BOE consolidated text,
       region by region, in the phase order in the master plan.
+
+  - id: OQ-5
+    question: >
+      RURAL_ORDINARY vs RURAL_PROTECTED is the distinction with the largest
+      legal consequence in this axis — on especially protected land the
+      urbanistic infraction generally does not prescribe, so the answer for a
+      building without licence is not "harder", it is a different answer. Which
+      published data source actually carries it, per municipality?
+    finding: >
+      Checked in Andalucía on 2026-08-16, as the region with the strongest
+      case for having it: none does. The national land-use layer (SIU,
+      Sistema de Información Urbana) publishes "SUELO NO URBANIZABLE" as one
+      undivided value across the whole country, so it maps to
+      RURAL_UNSPECIFIED and cannot map to either. The regional geoportal
+      (IDEAndalucía / SITU@) publishes a municipal PLAN REGISTRY — which
+      instrument each municipality has — and TERRITORIAL protection polygons,
+      but no municipal clasificación del suelo layer at all: 338 layers were
+      swept across every workspace of the serving GeoServer, plus the INSPIRE
+      catalogue and the regional open-data portal. The per-municipality
+      services that do exist are WMS images published "sin carácter legal".
+    recommendation: >
+      Treat this as structural rather than as a coverage gap waiting on a
+      download. The distinction is a determination MADE BY the municipal plan,
+      and it is read from the plan document (or, for a specific plot, from the
+      cédula urbanística or equivalent municipal certificate) — not from a
+      regional layer. Implementations should hold RURAL_UNSPECIFIED honestly
+      and refuse the question until the plan itself has been ingested for that
+      municipality, rather than resolving towards either value.
+
+      And specifically: do NOT derive RURAL_PROTECTED from territorial or
+      sectoral protection layers (POT/POTA polygons, protected-area
+      registers, Natura 2000, cattle-track or coastal easements). Regional
+      laws generally give two independent grounds for special protection —
+      protection by specific legislation and protection by territorial or
+      urbanistic planning (e.g. Andalucía: LOUA art. 46.1, LISTA art. 14) — so
+      such a layer evidences one ground for the ground it covers, and its
+      absence evidences nothing. An overlap does not entail that the plan
+      classifies the plot as protected, and a mapping that assumes it does
+      will tell owners their building can never be regularised on evidence
+      that decides no such thing. These layers belong on axis 4 (overlays),
+      where they can qualify an answer without becoming one.
